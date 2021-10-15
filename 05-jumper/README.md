@@ -34,4 +34,7 @@ root                    (project root folder)
 
 ## Authors
 ---
-* TODO: Add your names and emails here
+* Carly West
+  Sierra Davenport
+  Dexter Davenport
+  Rodrigo Sanchez
