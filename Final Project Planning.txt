@@ -1,0 +1,28 @@
+Text-based Adventure Game?
+	Requires:
+Story tree
+Logic Based
+ Legend-of-Zelda-like Game?
+	Requires:
+		Map build
+		Collision Based
+Combined? (Final-Fantasy-like or Pokemon-like)
+	Requires:
+		Map build
+		Collisions
+		Solo Battle Encounters (text-based)
+		Possible Classes:
+			
+
+FINAL CHOICE:
+Turn-Based Battle Game.
+Map to wander
+End Goal? – Treasure?, Rescue?, 
+Weapon Upgrades?
+Weapon Classes
+	Arrows? Sword? Gun? Spells? Punches?
+Leveling up?
+Items?
+Monsters?
+	Classes of Monsters:
+		Small, Medium, Big?
