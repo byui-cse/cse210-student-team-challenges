@@ -1,4 +1,51 @@
 # Final Project
+With the Game idea Nacho presented, We can added references below and enhancements below to it.
+---
+## Reference
+---
+(1) Main Scene
+    > Play button
+    > Help buttont
+
+(2) Game Scene
+    > User-controlled paddle
+    > Different color buildings
+    > Collision detection
+    > Life display
+    > Score display
+    > Sound effects
+
+(3) Win Scene
+    > Winner message
+    > Trophy display
+
+(4) Lose Scene
+    > loser message
+    > Play again button
+
+(5) Help Scene
+    > Help information
+    > Back button
+
+## Timeline 
+---
+This program will take two(2) weeks collective efforts to complete, However it might take three(3) weeks to complete further enhancements.
+
+## Getting Started
+---
+We need python 3.8.0 or newer installed and running on your computer to make this program work. 
+To run the program open a terminal and browse to the project's root folder. Start the program by 
+running the following command.
+```
+(windows: py3 #Game name, (Mac: Python 3 #Game name)) 
+```
+You can also run the program from an IDE like Visual Studio Code. Start your IDE 
+and open the project folder. Select the main module inside the <!-- Game name --> folder and 
+click the "run" icon.
+
+## Project Structure
+---
+TODO......When the program is all ready to execute
 
 ## Required Technologies
 ---
@@ -7,4 +54,4 @@
 
 ## Authors
 ---
-* # TODO: Add your names and emails here
+* Okechukwu Prince, princeowilson@gmail.com
