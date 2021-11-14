@@ -1,7 +1,14 @@
 ## Game
 ---
+
 <!--Game Name-->
+Crazy Lab
+
+<!--Game Project-->
 With the Game idea Nacho presented, We can added references below and enhancements below to it.
+
+<!--Game Concept-->
+Our game will be a platformer game similar to mario but with elements of other games like crossy road. Our main caracter will be triying to evade different obstacles and enemies that can be on his way, collecting an amount of points while is playing.
 
 ## Reference
 ---
@@ -13,7 +20,6 @@ With the Game idea Nacho presented, We can added references below and enhancemen
     > User-controlled paddle
     > Different color buildings
     > Collision detection
-    > Life display
     > Score display
     > Sound effects
 
@@ -36,4 +42,4 @@ This program will take two(2) weeks collective efforts to complete, However it m
 ## Required Technologies
 ---
 * Python 3.8.0
-* Arcade
+* Arcade Module
