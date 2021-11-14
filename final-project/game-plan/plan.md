@@ -1,38 +1,38 @@
 ## Game
 ---
 
-<!--Game Name-->
+### Game Name
 Crazy Lab
 
-<!--Game Project-->
+### Game Project
 With the Game idea Nacho presented, We can added references below and enhancements below to it.
 
-<!--Game Concept-->
+### Game Concept
 Our game will be a platformer game similar to mario but with elements of other games like crossy road.
 Our main caracter will be triying to evade different obstacles and enemies that can be on his way, collecting an amount of points while is playing.
 
 ## Reference
 ---
-(1) Main Scene
+##### Main Scene
     > Play button
     > Help buttont
 
-(2) Game Scene
+##### Game Scene
     > User-controlled paddle
     > Different objects and obstacles
     > Collision detection
     > Score display
     > Sound effects
 
-(3) Win Scene
+##### Win Scene
     > Winner message
     > Trophy display
 
-(4) Lose Scene
+##### Lose Scene
     > Loser message
     > Play again button
 
-(5) Help Scene
+##### Help Scene
     > Help information
     > Back button
 
