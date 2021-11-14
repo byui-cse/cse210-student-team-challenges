@@ -19,7 +19,7 @@ Our main caracter will be triying to evade different obstacles and enemies that 
 
 (2) Game Scene
     > User-controlled paddle
-    > Different color buildings
+    > Different objects and obstacles
     > Collision detection
     > Score display
     > Sound effects
@@ -29,7 +29,7 @@ Our main caracter will be triying to evade different obstacles and enemies that 
     > Trophy display
 
 (4) Lose Scene
-    > loser message
+    > Loser message
     > Play again button
 
 (5) Help Scene
@@ -38,7 +38,7 @@ Our main caracter will be triying to evade different obstacles and enemies that 
 
 ## Timeline 
 ---
-This program will take two(2) weeks collective efforts to complete, However it might take three(3) weeks to complete further enhancements.
+This program will take two weeks collective efforts to complete, However it might take three weeks to complete further enhancements.
 
 ## Required Technologies
 ---
