@@ -1,0 +1,39 @@
+## Game
+---
+<!--Game Name-->
+With the Game idea Nacho presented, We can added references below and enhancements below to it.
+
+## Reference
+---
+(1) Main Scene
+    > Play button
+    > Help buttont
+
+(2) Game Scene
+    > User-controlled paddle
+    > Different color buildings
+    > Collision detection
+    > Life display
+    > Score display
+    > Sound effects
+
+(3) Win Scene
+    > Winner message
+    > Trophy display
+
+(4) Lose Scene
+    > loser message
+    > Play again button
+
+(5) Help Scene
+    > Help information
+    > Back button
+
+## Timeline 
+---
+This program will take two(2) weeks collective efforts to complete, However it might take three(3) weeks to complete further enhancements.
+
+## Required Technologies
+---
+* Python 3.8.0
+* Arcade
