@@ -24,4 +24,9 @@ TODO......When the program is all ready to execute
 
 ## Authors
 ---
+
 * Okechukwu Prince, princeowilson@gmail.com
+* Rafael Alcantara da Silva
+* Shared Israel Ordaz Santillan
+* David Esguerra
+* Ignacio Ampuero
