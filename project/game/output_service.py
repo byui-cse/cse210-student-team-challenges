@@ -1,5 +1,10 @@
 import sys
 from game import constants
+from game.draw_actors_action import DrawActorsAction
 
 class OutputService:
-    pass
+
+    
+    def __init__(self):
+        
+        pass
