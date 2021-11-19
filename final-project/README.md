@@ -7,4 +7,4 @@
 
 ## Authors
 ---
-* # TODO: Add your names and emails here
+Scott Thompson: Scottathompson98@gmail.com
