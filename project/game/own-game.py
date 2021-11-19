@@ -34,7 +34,7 @@ class Screen(arcade.Window):
         # Draw all the sprites.
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
-        self.player = arcade.Sprite("final-project\project\game\images\player.png", SPRITE_SCALING)
+        self.player = arcade.Sprite("project/game/images/player.png", SPRITE_SCALING)
         self.player.center_y = self.height / 2  #Sets the y and x position of the sprite
         self.player.left = 10
         self.sprite_list.append(self.player)
