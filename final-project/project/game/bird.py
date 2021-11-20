@@ -16,8 +16,8 @@ class Bird(Actor):
     def __init__(self):
         """The class constructor."""
         super().__init__()
-        self.set_sprite(arcade.Sprite("../assets/bird.png",0.25))
-        self.set_position(Point(100,425))
+        self.set_sprite(arcade.Sprite("cse210-student-team-challenges/final-project/assets/bird.png",0.15))
+        self.set_position(Point(100,525))
         self.set_velocity(Point(0,0))
     def move_right(self):
         """Move the bird to the right."""

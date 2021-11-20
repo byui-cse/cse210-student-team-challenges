@@ -21,9 +21,6 @@ class Director(arcade.Window):
         """
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
         self.start_game()
-
-        #self._input_service = input_service
-        #self._output_service = output_service
         
     def start_game(self):
         """Starts the game loop to control the sequence of play.
@@ -31,7 +28,9 @@ class Director(arcade.Window):
         Args:
             self (Director): an instance of Director.
         """
-        arcade.set_background_color(arcade.csscolor.SKY_BLUE)
+        #self.background = None
+        self.background = arcade.load_texture("cse210-student-team-challenges/final-project/assets/background.png")
+        #arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self._bird = bird.Bird()
         self._keep_playing = True
         self._direction = 1
@@ -93,10 +92,10 @@ class Director(arcade.Window):
             self (Director): An instance of Director.
         """
         arcade.start_render()
+        arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, self.background)
         self._bird.move()
         self._bird.draw()
         for stone in self._stone_list:
             stone.move()
             stone.draw()
         arcade.finish_render()
-        pass
