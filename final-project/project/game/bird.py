@@ -2,6 +2,7 @@
 from game import constants
 from game.point import Point
 from game.actor import Actor
+from game.point import Point
 import arcade
 
 class Bird(Actor):
@@ -9,12 +10,20 @@ class Bird(Actor):
     Stereotype:
         Information Holder
     Attributes:
-        abc
+        Same as Actor.
     """
 
     def __init__(self):
-      """The class constructor."""
-      super().__init__()
-      self.set_sprite(arcade.Sprite("../assets/bird.png",0.25))
-      self._sprite.center_x = 400
-      self._sprite.center_y = 500
+        """The class constructor."""
+        super().__init__()
+        self.set_sprite(arcade.Sprite("../assets/bird.png",0.25))
+        self.set_position(Point(100,425))
+        self.set_velocity(Point(0,0))
+    def move_right(self):
+        """Move the bird to the right."""
+        self.set_velocity(Point(3,0))
+        self.move()
+    def move_left(self):
+        """Move the bird to the left."""
+        self.set_velocity(Point(-3,0))
+        self.move()

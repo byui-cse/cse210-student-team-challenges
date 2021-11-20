@@ -50,8 +50,6 @@ class Actor:
             position (Point): The given position.
         """
         self._position = position
-        self._sprite.center_x = self._position.get_x()
-        self._sprite.center_y = self._position.get_y()
     
     def set_sprite(self, text):
         """Updates the actor's image to the given value.
@@ -71,6 +69,8 @@ class Actor:
     
     def draw(self):
         """Draw the actor"""
+        self._sprite.center_x = self._position.get_x()
+        self._sprite.center_y = self._position.get_y()
         self._sprite.draw()
 
     def move(self):
