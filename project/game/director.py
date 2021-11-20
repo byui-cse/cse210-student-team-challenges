@@ -1,15 +1,6 @@
-# from game.player import Player
+from game.player import Player
 import arcade
-
-
-#Constants
-SPRITE_SCALING = 0.1
-
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Own-game.py"
-
-MOVEMENT_SPEED = 5
+from game import constants
 
 
 class Screen(arcade.Window):
@@ -36,7 +27,7 @@ class Screen(arcade.Window):
         # Draw all the sprites.
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
-        self.player = arcade.Sprite("project/game/images/player.png", SPRITE_SCALING)
+        self.player = Player("project/game/images/player.png", constants.SPRITE_SCALING)
         self.player.center_y = self.height / 2  #Sets the y and x position of the sprite
         self.player.left = 10
         self.sprite_list.append(self.player)
@@ -46,13 +37,13 @@ class Screen(arcade.Window):
 
         # If the player presses a key, update the speed
         if key == arcade.key.UP:
-            self.player.change_y = MOVEMENT_SPEED
+            self.player.change_y = constants.MOVEMENT_SPEED
         elif key == arcade.key.DOWN:
-            self.player.change_y = -MOVEMENT_SPEED
+            self.player.change_y = -constants.MOVEMENT_SPEED
         elif key == arcade.key.LEFT:
-            self.player.change_x = -MOVEMENT_SPEED
+            self.player.change_x = -constants.MOVEMENT_SPEED
         elif key == arcade.key.RIGHT:
-            self.player.change_x = MOVEMENT_SPEED
+            self.player.change_x = constants.MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
