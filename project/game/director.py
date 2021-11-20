@@ -72,7 +72,11 @@ class Screen(arcade.Window):
 
     def draw_background(self):
         self.background = Background("project/game/images/lab_background.png", constants.BACKGROUND_SCALE)
+
         self.background.center_y = 280 #Sets the y and x position of the sprite
+        
+        self.background.center_y = 280 #Sets the y and x position of the sprite
+
         self.background.left = 0
         self.sprite_list.append(self.background)
 

@@ -28,5 +28,5 @@ TODO......When the program is all ready to execute
 * Okechukwu Prince, princeowilson@gmail.com
 * Rafael Alcantara da Silva
 * Shared Israel Ordaz Santillan
-* David Esguerra
+* David Esguerra, davidjulian.es@gmail.com
 * Nacho Ampuero
