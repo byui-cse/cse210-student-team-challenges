@@ -21,6 +21,6 @@ class Stone(Actor):
             pos (Point): An initial position
         """
         super().__init__()
-        self.set_sprite(arcade.Sprite("../assets/stone.png",0.1))
+        self.set_sprite(arcade.Sprite("cse210-student-team-challenges/final-project/assets/stone.png",0.04))
         self.set_position(pos)
         self.set_velocity(Point(0,-3))

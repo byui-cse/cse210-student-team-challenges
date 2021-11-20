@@ -6,4 +6,4 @@ FRAME_LENGTH = 0.001
 PATH = os.path.dirname(os.path.abspath(__file__))
 SCREEN_WIDTH=800
 SCREEN_HEIGHT=600
-SCREEN_TITLE="Kerchunk"
+SCREEN_TITLE="Kerchunk!"

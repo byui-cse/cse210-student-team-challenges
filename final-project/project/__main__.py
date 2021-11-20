@@ -5,7 +5,6 @@ import arcade
 def main():
     mygame = director.Director()
     arcade.run()
-    pass
 
 if __name__ == "__main__":
     main()
