@@ -12,7 +12,7 @@ class Player(arcade.Sprite):
         self.center_y += self.change_y
 
 
-        self.change_y = constants.GRAVITY
+        # self.change_y = constants.GRAVITY
         # Check for out-of-bounds
         if self.left < 0:
             self.left = 0
