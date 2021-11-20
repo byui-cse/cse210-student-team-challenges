@@ -15,6 +15,7 @@ class Screen(arcade.Window):
         
         #Creating an instance that manages the sprites
         self.sprite_list = arcade.SpriteList()
+        self.background_list = arcade.SpriteList()
         #Setting Background color
         arcade.set_background_color(arcade.color.BLACK)
 
@@ -32,7 +33,7 @@ class Screen(arcade.Window):
             wall.center_x = x
             wall.center_y = 32
             self.scene.add_sprite("Walls", wall)
-
+            
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
 
@@ -55,10 +56,10 @@ class Screen(arcade.Window):
         self.background = Background("project/game/images/lab_background.png", K.BACKGROUND_SCALE)
         self.background.center_y = 280 #Sets the y and x position of the sprite
         self.background.left = 0
-        self.sprite_list.append(self.background)
+        self.background_list.append(self.background)
         
-=======
-        self.platforms = Platforms.make_platforms(constants.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
+
+        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
                 
     def on_draw(self):
         """
@@ -67,11 +68,14 @@ class Screen(arcade.Window):
 
         # This command has to happen before we start drawing
         arcade.start_render()
+        
+        self.background_list.draw()
+        self.platforms.draw()
         self.sprite_list.draw()
         self.scene.draw()
 
         # Draw all the sprites.
-        self.platforms.draw()
+        
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -101,7 +105,7 @@ class Screen(arcade.Window):
 
 
         # Allow the platforms to keeep moving      
-        self.platforms.center_x -= constants.PLATFORM_SPEED #From Shared:
+        self.platforms.center_x -= K.PLATFORM_SPEED #From Shared:
                                                             #Set a variable to platform speed
     # def gravity(self):
     #     # This should be it's own class, and get called from the init.
