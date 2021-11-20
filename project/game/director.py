@@ -3,7 +3,7 @@ from game.background import Background
 from game import constants
 
 import arcade
-
+import time
 
 
 class Screen(arcade.Window):
@@ -29,18 +29,23 @@ class Screen(arcade.Window):
 
         # Draw all the sprites.
     def create_player(self):
+        
         """Create the player sprite, specify his position and append it to the list of all sprites"""
         self.player = Player("project/game/images/player.png", constants.SPRITE_SCALING) #THE PLAYER OBJECT
         self.player.center_y = self.height / 2  #Sets the y and x position of the sprite
         self.player.left = 10
         self.sprite_list.append(self.player)
 
+        # self.physics_engine = arcade.PhysicsEnginePlatformer(
+        #     self.player, gravity_constant=constants.GRAVITY, walls= self.sprite_list)
+
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
 
         # If the player presses a key, update the speed
         if key == arcade.key.UP:
-            self.player.change_y = constants.MOVEMENT_SPEED
+            self.player.change_y = constants.PLAYER_JUMP_SPEED
+        
         elif key == arcade.key.DOWN:
             self.player.change_y = -constants.MOVEMENT_SPEED
         elif key == arcade.key.LEFT:
@@ -55,9 +60,9 @@ class Screen(arcade.Window):
         # This doesn't work well if multiple keys are pressed.
         # Use 'better move by keyboard' example if you need to
         # handle this.
-        if key == arcade.key.UP or key == arcade.key.DOWN:
-            self.player.change_y = 0
-        elif key == arcade.key.LEFT or key == arcade.key.RIGHT:
+        # if key == arcade.key.UP or key == arcade.key.DOWN:
+        #     self.player.change_y = 0
+        if key == arcade.key.LEFT or key == arcade.key.RIGHT:
             self.player.change_x = 0
 
     def draw_background(self):
@@ -71,4 +76,7 @@ class Screen(arcade.Window):
 
         # Move the player
         self.sprite_list.update()
+    
+    def gravity(self):
+        pass
 
