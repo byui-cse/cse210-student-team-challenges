@@ -39,7 +39,6 @@ class Screen(arcade.Window):
         # Platforms are still not "solid"
         # self.scene.add_sprite("Walls", self.platforms)
 
-    
     def create_player(self):
         
         """Create the player sprite, specify his position and append it to the list of all sprites"""
@@ -89,9 +88,6 @@ class Screen(arcade.Window):
             self.player.change_x = 0
         elif key == arcade.key.RIGHT:
             self.player.change_x = 0
-
-        self.background = Background("project/game/images/lab_background.png", K.BACKGROUND_SCALE)
-        self.background.center_y = 280 #Sets the y and x position of the sprite
 
         self.background.left = 0
         self.sprite_list.append(self.background)
