@@ -21,7 +21,7 @@ class ZeldaGame(arcade.Window):
         self.enemies_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("project/images/zelda/room1.png")
+        self.room = Room("final-project/project/images/zelda/room1.png")
         self.physics_engine = None
         # file_path = os.path.dirname(os.path.abspath(__file__))
         # os.chdir(file_path)
@@ -32,17 +32,18 @@ class ZeldaGame(arcade.Window):
         """
 
          # Set up the player
-        self.player = arcade.Sprite("project/images/zelda/front_run1.png", SCALING/2.5)
+        self.player = arcade.Sprite("final-project/project/images/zelda/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
         self.paused = False
+        self.shoot_direction = 'right'
 
         # Spawn a new enemy every 3 seconds
         arcade.schedule(self.add_enemy, 2)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('project/images/zelda/metal_box.png')
+            self.box_room1 = Obstacle('final-project/project/images/zelda/metal_box.png')
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1.obstacle)
 
@@ -95,13 +96,13 @@ class ZeldaGame(arcade.Window):
     # """
     #     self.background_music.play()
 
-    def fire_missile(self):
+    def fire_missile_right(self):
         """Fires a missile against the incoming enemies
         """
         if self.paused:
             return
 
-        missile = Weapon("project/images/zelda/arrow.png", SCALING)
+        missile = Weapon("final-project/project/images/zelda/arrow_right.png", SCALING)
 
         missile.center_x = self.player.center_x
         missile.center_y = self.player.center_y - 5
@@ -109,6 +110,53 @@ class ZeldaGame(arcade.Window):
 
         self.missile_list.append(missile)
         self.all_sprites.append(missile)
+    
+    def fire_missile_left(self):
+        """Fires a missile against the incoming enemies
+        """
+        if self.paused:
+            return
+
+        missile = Weapon("final-project/project/images/zelda/arrow_left.png", SCALING)
+
+        missile.center_x = self.player.center_x
+        missile.center_y = self.player.center_y - 5
+        missile.change_x = -500
+        missile.change_angle = 180
+
+        self.missile_list.append(missile)
+        self.all_sprites.append(missile)
+
+    def fire_missile_down(self):
+
+        if self.paused:
+            return
+
+        missile = Weapon("final-project/project/images/zelda/arrow_down.png", SCALING)
+
+        missile.center_x = self.player.center_x
+        missile.center_y = self.player.center_y - 5
+        missile.change_y = -500
+        missile.change_angle = 90
+
+        self.missile_list.append(missile)
+        self.all_sprites.append(missile)
+
+    def fire_missile_top(self):
+    
+        if self.paused:
+            return
+
+        missile = Weapon("final-project/project/images/zelda/arrow_top.png", SCALING)
+
+        missile.center_x = self.player.center_x
+        missile.center_y = self.player.center_y - 5
+        missile.change_y = 500
+        missile.change_angle = 90
+
+        self.missile_list.append(missile)
+        self.all_sprites.append(missile)
+
 
     def add_enemy(self, delta_time: float):
         """Adds a new enemy to the screen
@@ -120,7 +168,7 @@ class ZeldaGame(arcade.Window):
             return
 
         # First, create the the new enemy sprite
-        enemy = Obstacle("project/images/monster1.png")
+        enemy = Obstacle("final-project/project/images/monster1.png")
 
         # Set its position to a random height and off screen right
         enemy.position_obstacle(600, 150)
@@ -151,17 +199,28 @@ class ZeldaGame(arcade.Window):
             self.paused = not self.paused
 
         if symbol == arcade.key.SPACE:
-            self.fire_missile()
+            if self.shoot_direction == 'right':
+                self.fire_missile_right()
+            elif self.shoot_direction == 'left':
+                self.fire_missile_left()
+            elif self.shoot_direction == 'down':
+                self.fire_missile_down()
+            elif self.shoot_direction == 'top':
+                self.fire_missile_top()
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
+            self.shoot_direction = 'top'
             # self.move_up_sound.play()
             self.player.change_y = 5
         elif symbol == arcade.key.A or symbol == arcade.key.LEFT:
+            self.shoot_direction = 'left'
             self.player.change_x = -5
         elif symbol == arcade.key.S or symbol == arcade.key.DOWN:
+            self.shoot_direction = 'down'
             # self.move_down_sound.play()
             self.player.change_y = -5
         elif symbol == arcade.key.D or symbol == arcade.key.RIGHT:
+            self.shoot_direction = 'right'
             self.player.change_x = 5
 
     def on_key_release(self, symbol: int, modifiers: int):
