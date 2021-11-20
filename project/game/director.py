@@ -96,8 +96,6 @@ class Screen(arcade.Window):
         self.background.left = 0
         self.sprite_list.append(self.background)
 
-=======
->>>>>>> a971626 (Physics engine done)
     def on_update(self, delta_time):
         """ Update the movement data done in the key detecting functions"""
 
