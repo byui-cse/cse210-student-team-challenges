@@ -18,9 +18,6 @@ class Screen(arcade.Window):
         #Setting Background color
         arcade.set_background_color(arcade.color.BLACK)
 
-        # Move this elsewhere
-        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
-
         self.physics_engine = None
         self.scene = None
 
@@ -35,6 +32,12 @@ class Screen(arcade.Window):
             wall.center_x = x
             wall.center_y = 32
             self.scene.add_sprite("Walls", wall)
+
+        # Create the platforms
+        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
+
+        # Platforms are still not "solid"
+        # self.scene.add_sprite("Walls", self.platforms)
 
     
     def create_player(self):
@@ -66,7 +69,7 @@ class Screen(arcade.Window):
         self.scene.draw()
 
         # Draw all the sprites.
-        # self.platforms.draw()
+        self.platforms.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
