@@ -1,10 +1,10 @@
 from game.player import Player
 from game.background import Background
+from game.platforms import Platforms
 from game import constants
 
 import arcade
 import time
-
 
 class Screen(arcade.Window):
     #The inheritance of the window class automatically starts the screen
@@ -18,6 +18,8 @@ class Screen(arcade.Window):
         #Setting Background color
         arcade.set_background_color(arcade.color.BLACK)
 
+        self.platforms = Platforms.make_platforms(constants.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
+
     def on_draw(self):
         """
         Render the screen, and show the sprites with the .draw() method
@@ -28,6 +30,9 @@ class Screen(arcade.Window):
         self.sprite_list.draw()
 
         # Draw all the sprites.
+        self.platforms.draw()
+
+
     def create_player(self):
         
         """Create the player sprite, specify his position and append it to the list of all sprites"""
@@ -67,7 +72,7 @@ class Screen(arcade.Window):
 
     def draw_background(self):
         self.background = Background("project/game/images/lab_background.png", constants.BACKGROUND_SCALE)
-        self.background.center_y = 280#Sets the y and x position of the sprite
+        self.background.center_y = 280 #Sets the y and x position of the sprite
         self.background.left = 0
         self.sprite_list.append(self.background)
 
@@ -76,7 +81,11 @@ class Screen(arcade.Window):
 
         # Move the player
         self.sprite_list.update()
+
+        # Allow the platforms to keeep moving           
+        self.platforms.center_x -= 1   
     
     def gravity(self):
+        # This should be it's own class, and get called from the init.
         pass
 
