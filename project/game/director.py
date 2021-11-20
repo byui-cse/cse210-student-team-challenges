@@ -13,7 +13,7 @@ class Screen(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         
-        #Creating an instance that manages the players
+        #Creating an instance that manages the sprites
         self.sprite_list = arcade.SpriteList()
         #Setting Background color
         arcade.set_background_color(arcade.color.BLACK)
@@ -57,6 +57,9 @@ class Screen(arcade.Window):
         self.background.left = 0
         self.sprite_list.append(self.background)
         
+=======
+        self.platforms = Platforms.make_platforms(constants.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
+                
     def on_draw(self):
         """
         Render the screen, and show the sprites with the .draw() method
@@ -89,16 +92,18 @@ class Screen(arcade.Window):
         elif key == arcade.key.RIGHT:
             self.player.change_x = 0
 
-        self.background.left = 0
-        self.sprite_list.append(self.background)
 
     def on_update(self, delta_time):
         """ Update the movement data done in the key detecting functions"""
-
         # Move the player
         self.physics_engine.update()
         self.sprite_list.update()
-        
-        # Allow the platforms to keeep moving           
-        self.platforms.center_x -= 1   
-    
+
+
+        # Allow the platforms to keeep moving      
+        self.platforms.center_x -= constants.PLATFORM_SPEED #From Shared:
+                                                            #Set a variable to platform speed
+    # def gravity(self):
+    #     # This should be it's own class, and get called from the init.
+    #     pass
+
