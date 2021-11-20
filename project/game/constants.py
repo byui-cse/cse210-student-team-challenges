@@ -1,0 +1,15 @@
+#Screen constants
+SCREEN_WIDTH = 1000
+SCREEN_HEIGHT = 500
+SCREEN_TITLE = "Own-game.py"
+
+#Character constants
+MOVEMENT_SPEED = 5
+SPRITE_SCALING = 0.08
+
+#GRAVITY
+GRAVITY = -5
+PLAYER_JUMP_SPEED = 110
+
+#Background constants
+BACKGROUND_SCALE = 2.5
