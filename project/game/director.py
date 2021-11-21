@@ -86,18 +86,16 @@ class Screen(arcade.Window):
         if key == arcade.key.UP:
             if self.physics_engine.can_jump():
                 self.player.change_y = K.PLAYER_JUMP_SPEED
-            self.player.change_y = constants.PLAYER_JUMP_SPEED
+            self.player.change_y = K.PLAYER_JUMP_SPEED
             self.sounds.play_sound()
         elif key == arcade.key.DOWN:
-            self.player.change_y = -constants.MOVEMENT_SPEED
-            self.sounds.play_sound()
-        elif key == arcade.key.LEFT:
-            self.player.change_x = -constants.MOVEMENT_SPEED
-            self.sounds.play_sound()
-        elif key == arcade.key.RIGHT:
-            self.player.change_x = constants.MOVEMENT_SPEED
-            self.sounds.play_sound()
+            self.player.change_y = -K.MOVEMENT_SPEED
 
+        elif key == arcade.key.LEFT:
+            self.player.change_x = -K.MOVEMENT_SPEED
+
+        elif key == arcade.key.RIGHT:
+            self.player.change_x = K.MOVEMENT_SPEED
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
@@ -116,9 +114,6 @@ class Screen(arcade.Window):
 
 
         # Allow the platforms to keeep moving      
-        self.platforms.center_x -= K.PLATFORM_SPEED #From Shared:
-                                                            #Set a variable to platform speed
-    # def gravity(self):
-    #     # This should be it's own class, and get called from the init.
-    #     pass
+        self.platforms.center_x -= K.PLATFORM_SPEED 
+
 

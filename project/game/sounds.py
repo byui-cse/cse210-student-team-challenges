@@ -8,7 +8,6 @@ class Sounds:
 
     def play_sound(self):
         self.sound.play(1, 0, False)
-        arcade.play_sound(1, 0, False)  
 
     def stop_sound(self):
         arcade.stop_sound()
