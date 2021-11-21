@@ -1,5 +1,5 @@
 import arcade
-from scaling import SPRITE_SCALING
+from ZeldaGame.scaling import SPRITE_SCALING
 
 class Obstacle(arcade.Sprite):
     

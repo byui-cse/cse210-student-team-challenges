@@ -1,14 +1,12 @@
 import arcade
 import random
 
-from arcade import sprite_list
-
-from scaling import SCREEN_HEIGHT, SCREEN_WIDTH, SCALING, SPRITE_SCALING
-from obstacles import Obstacle
-from room import Room
-from weapon import Weapon
-from obstacles_lists import boxes_room1
-from fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
+from ZeldaGame.scaling import SCREEN_HEIGHT, SCREEN_WIDTH, SCALING, SPRITE_SCALING
+from ZeldaGame.obstacles import Obstacle
+from ZeldaGame.room import Room
+from ZeldaGame.weapon import Weapon
+from ZeldaGame.obstacles_lists import boxes_room1
+from ZeldaGame.fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
 
 SCREEN_TITLE = "The remixed Legend of Zelda"
 
@@ -43,7 +41,7 @@ class ZeldaGame(arcade.Window):
         self.shoot_direction = 'right'
 
         # Spawn a new enemy every 3 seconds
-        arcade.schedule(self.add_enemy, 2)
+        arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
             self.box_room1 = Obstacle('final-project/project/images/zelda/metal_box.png')
@@ -64,7 +62,7 @@ class ZeldaGame(arcade.Window):
 
 # ########## Load all the sounds
 # ########## Sound sources: Jon Fincher
-#         self.collision_sound = arcade.load_sound("sounds/Collision.wav")
+        self.collision_sound = arcade.load_sound("final-project/project/sounds/Collision.wav")
 #         self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
 #         self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
 
@@ -188,7 +186,7 @@ class ZeldaGame(arcade.Window):
 
 
         if self.player.collides_with_list(self.enemies_list):
-            # self.collision_sound.play()
+            self.collision_sound.play()
             # Stop the game and schedule the game close
             self.paused = True
             arcade.schedule(lambda delta_time: arcade.close_window(), 0.5)
@@ -196,6 +194,7 @@ class ZeldaGame(arcade.Window):
         for enemy in self.enemies_list:
             collisions = enemy.collides_with_list(self.missile_list)
             if collisions:
+                self.collision_sound.play()
                 enemy.remove_from_sprite_lists()
                 for missile in collisions:
                     missile.remove_from_sprite_lists()

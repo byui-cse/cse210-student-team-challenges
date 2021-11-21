@@ -1,5 +1,5 @@
 import arcade
-from abstract_object import MainObjects
+from ZeldaGame.abstract_object import MainObjects
 
 class Room(MainObjects):
 

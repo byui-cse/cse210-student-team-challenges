@@ -1,5 +1,5 @@
 import arcade 
-from scaling import SCREEN_WIDTH
+from ZeldaGame.scaling import SCREEN_WIDTH
 
 class Weapon(arcade.Sprite):
     
