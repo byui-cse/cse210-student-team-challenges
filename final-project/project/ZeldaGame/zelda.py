@@ -1,11 +1,14 @@
 import arcade
 import random
 
+from arcade import sprite_list
+
 from scaling import SCREEN_HEIGHT, SCREEN_WIDTH, SCALING, SPRITE_SCALING
 from obstacles import Obstacle
 from room import Room
 from weapon import Weapon
 from obstacles_lists import boxes_room1
+from fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
 
 SCREEN_TITLE = "The remixed Legend of Zelda"
 
@@ -47,30 +50,9 @@ class ZeldaGame(arcade.Window):
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1.obstacle)
 
-        # self.obstacle1 =
-        # self.obstacle1.position_obstacle(1, 1)
-
-        # self.obstacle2 = Obstacle('images/zelda/metal_box.png')
-        # self.obstacle2.position_obstacle(50, 1)
-
-        # self.obstacle3 = Obstacle('images/zelda/metal_box.png')
-        # self.obstacle3.position_obstacle(1, 50)
-        
-        # self.obstacle4 = Obstacle('images/zelda/metal_box.png')
-        # self.obstacle4.position_obstacle(50, 50)
-
-
-        # self.room.add_sprite(self.obstacle1.obstacle)
-        # self.room.add_sprite(self.obstacle2.obstacle)
-        # self.room.add_sprite(self.obstacle3.obstacle)
-        # self.room.add_sprite(self.obstacle4.obstacle)
-
         # Create a physics engine for this room
         self.physics_engine = arcade.PhysicsEngineSimple(self.player,
                                                          self.room.sprite_list)
-
-        # Set the background colour
-        # arcade.set_background_color(arcade.color.ARMY_GREEN)
 
 # ########## Load background music
 # ########## Sound source: http://ccmixter.org/files/Apoxode/59262
@@ -95,67 +77,6 @@ class ZeldaGame(arcade.Window):
     #     """Starts playing the background music
     # """
     #     self.background_music.play()
-
-    def fire_missile_right(self):
-        """Fires a missile against the incoming enemies
-        """
-        if self.paused:
-            return
-
-        missile = Weapon("final-project/project/images/zelda/arrow_right.png", SCALING)
-
-        missile.center_x = self.player.center_x
-        missile.center_y = self.player.center_y - 5
-        missile.velocity = (500, 0)
-
-        self.missile_list.append(missile)
-        self.all_sprites.append(missile)
-    
-    def fire_missile_left(self):
-        """Fires a missile against the incoming enemies
-        """
-        if self.paused:
-            return
-
-        missile = Weapon("final-project/project/images/zelda/arrow_left.png", SCALING)
-
-        missile.center_x = self.player.center_x
-        missile.center_y = self.player.center_y - 5
-        missile.change_x = -500
-        missile.change_angle = 180
-
-        self.missile_list.append(missile)
-        self.all_sprites.append(missile)
-
-    def fire_missile_down(self):
-
-        if self.paused:
-            return
-
-        missile = Weapon("final-project/project/images/zelda/arrow_down.png", SCALING)
-
-        missile.center_x = self.player.center_x
-        missile.center_y = self.player.center_y - 5
-        missile.change_y = -500
-        missile.change_angle = 90
-
-        self.missile_list.append(missile)
-        self.all_sprites.append(missile)
-
-    def fire_missile_top(self):
-    
-        if self.paused:
-            return
-
-        missile = Weapon("final-project/project/images/zelda/arrow_top.png", SCALING)
-
-        missile.center_x = self.player.center_x
-        missile.center_y = self.player.center_y - 5
-        missile.change_y = 500
-        missile.change_angle = 90
-
-        self.missile_list.append(missile)
-        self.all_sprites.append(missile)
 
 
     def add_enemy(self, delta_time: float):
@@ -200,13 +121,24 @@ class ZeldaGame(arcade.Window):
 
         if symbol == arcade.key.SPACE:
             if self.shoot_direction == 'right':
-                self.fire_missile_right()
+                missile = Weapon("final-project/project/images/zelda/arrow_right.png", SCALING)
+                shoot = Shooter(ShootRight())
+                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+
             elif self.shoot_direction == 'left':
-                self.fire_missile_left()
+                missile = Weapon("final-project/project/images/zelda/arrow_left.png", SCALING)
+                shoot = Shooter(ShootLeft())
+                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+               
             elif self.shoot_direction == 'down':
-                self.fire_missile_down()
+                missile = Weapon("final-project/project/images/zelda/arrow_down.png", SCALING)
+                shoot = Shooter(ShootDown())
+                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+               
             elif self.shoot_direction == 'top':
-                self.fire_missile_top()
+                missile = Weapon("final-project/project/images/zelda/arrow_top.png", SCALING)
+                shoot = Shooter(ShootUp())
+                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
             self.shoot_direction = 'top'
