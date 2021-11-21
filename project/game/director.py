@@ -1,7 +1,9 @@
 from game.player import Player
 from game.background import Background
+from game.sounds import Sounds
 from game.platforms import Platforms
 from game import K
+
 
 import arcade
 import time
@@ -18,6 +20,7 @@ class Screen(arcade.Window):
         self.background_list = arcade.SpriteList()
         #Setting Background color
         arcade.set_background_color(arcade.color.BLACK)
+        self.sounds = Sounds()
 
         self.physics_engine = None
         self.scene = None
@@ -83,10 +86,18 @@ class Screen(arcade.Window):
         if key == arcade.key.UP:
             if self.physics_engine.can_jump():
                 self.player.change_y = K.PLAYER_JUMP_SPEED
+            self.player.change_y = constants.PLAYER_JUMP_SPEED
+            self.sounds.play_sound()
+        elif key == arcade.key.DOWN:
+            self.player.change_y = -constants.MOVEMENT_SPEED
+            self.sounds.play_sound()
         elif key == arcade.key.LEFT:
-            self.player.change_x = -K.PLAYER_MOVEMENT_SPEED
+            self.player.change_x = -constants.MOVEMENT_SPEED
+            self.sounds.play_sound()
         elif key == arcade.key.RIGHT:
-            self.player.change_x = K.PLAYER_MOVEMENT_SPEED
+            self.player.change_x = constants.MOVEMENT_SPEED
+            self.sounds.play_sound()
+
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
