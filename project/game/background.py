@@ -1,5 +1,5 @@
 import arcade
-from game import constants
+from game import K
 
 class Background(arcade.Sprite):
 
