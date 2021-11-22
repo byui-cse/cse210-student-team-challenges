@@ -5,7 +5,7 @@ SCREEN_TITLE = "Own-Game.py"
 
 # Character constants
 MOVEMENT_SPEED = 5
-SPRITE_SCALING = 0.08
+SPRITE_SCALING = 0.8
 
 # Physics
 GRAVITY = 1
@@ -17,3 +17,6 @@ BACKGROUND_SCALE = 2.5
 
 #Platforms constants
 PLATFORM_SPEED = 1
+
+# Custom Colours
+GREY = (106, 106, 86)
