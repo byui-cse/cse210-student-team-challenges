@@ -30,9 +30,9 @@ class Screen(arcade.Window):
         # Initialize Scene
         self.scene = arcade.Scene()
 
-        # Find some kind of fire
+        # Populate the ground with spikes
         for x in range(0, 1250, 64):
-            wall = arcade.Sprite(":resources:images/tiles/boxCrate_double.png", 0.2) # Last parameter is for resizing.
+            wall = arcade.Sprite(":resources:images/tiles/spikes.png", 1) # Last parameter is for resizing.
             wall.center_x = x
             wall.center_y = 32
             self.scene.add_sprite("Walls", wall)
