@@ -17,3 +17,6 @@ BACKGROUND_SCALE = 2.5
 
 #Platforms constants
 PLATFORM_SPEED = 1
+
+# Custom Colours
+GREY = (106, 106, 86)

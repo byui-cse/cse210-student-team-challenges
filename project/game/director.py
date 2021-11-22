@@ -15,7 +15,7 @@ class Screen(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
         
-        #Creating an instance that manages the sprites
+        # Creating an instance that manages the sprites
         self.sprite_list = arcade.SpriteList()
         self.background_list = arcade.SpriteList()
         self.sounds = Sounds()
@@ -28,13 +28,13 @@ class Screen(arcade.Window):
 
         # Populate the ground with spikes
         for x in range(0, 1250, 64):
-            wall = arcade.Sprite(":resources:images/tiles/spikes.png", 1) # Last parameter is for resizing.
+            wall = arcade.Sprite(":resources:images/tiles/spikes.png") # Last parameter is for resizing (optional)
             wall.center_x = x
             wall.center_y = 32
             self.scene.add_sprite("Walls", wall)
             
         # Create the platforms
-        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, (106, 106, 86), 0.7, 0.5)
+        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
         # self.scene.add_sprite("Walls", self.platforms)
 
