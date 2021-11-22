@@ -46,7 +46,7 @@ class Screen(arcade.Window):
     def create_player(self):
         
         """Create the player sprite, specify his position and append it to the list of all sprites"""
-        self.player = Player("project/game/images/player.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
+        self.player = Player(":resources:images/animated_characters/robot/robot_walk0.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
         self.player.center_x = 64
         self.player.center_y = 128
         self.sprite_list.append(self.player)
