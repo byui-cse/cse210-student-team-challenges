@@ -26,7 +26,7 @@ class ZeldaGame(arcade.Window):
         self.rooms_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("final-project/images/zelda/room1.png")
+        self.room = Room("final-project/images/room1.png")
         self.physics_engine = None
         self._enemy = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
         self._enemy2 = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
@@ -38,7 +38,7 @@ class ZeldaGame(arcade.Window):
 
          # Set up the player
 
-        self.player = arcade.Sprite("final-project/images/zelda/front_run1.png", SCALING/2.5)
+        self.player = arcade.Sprite("final-project/images/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
@@ -51,17 +51,17 @@ class ZeldaGame(arcade.Window):
         arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('final-project/images/zelda/metal_box.png', SPRITE_SCALING)
+            self.box_room1 = Obstacle('final-project/images/metal_box.png', SPRITE_SCALING)
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1)
 
         for box in blue_boxes:
-            self.blue_box = Obstacle('final-project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box = Obstacle('final-project/images/bluebox.png', SPRITE_SCALING)
             self.blue_box.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.blue_box)
 
         for box in blue_boxes_right:
-            self.blue_box_right = Obstacle('final-project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box_right = Obstacle('final-project/images/bluebox.png', SPRITE_SCALING)
             self.blue_box_right.position_obstacle(box[0], box[1])
             self.room.add_wall_to_remove(self.blue_box_right)  
 
@@ -141,23 +141,23 @@ class ZeldaGame(arcade.Window):
 
         if symbol == arcade.key.SPACE:
 
-            if self.shoot_direction == 'right':
-                missile = Weapon("final-project/images/zelda/arrow_right.png", SCALING)
+            if self.player_direction == 'right':
+                missile = Weapon("final-project/images/arrow_right.png", SCALING)
                 shoot = Shooter(ShootRight())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
-            elif self.shoot_direction == 'left':
-                missile = Weapon("final-project/images/zelda/arrow_left.png", SCALING)
+            elif self.player_direction == 'left':
+                missile = Weapon("final-project/images/arrow_left.png", SCALING)
                 shoot = Shooter(ShootLeft())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
-            elif self.shoot_direction == 'down':
-                missile = Weapon("final-project/images/zelda/arrow_down.png", SCALING)
+            elif self.player_direction == 'down':
+                missile = Weapon("final-project/images/arrow_down.png", SCALING)
                 shoot = Shooter(ShootDown())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
-            elif self.shoot_direction == 'top':
-                missile = Weapon("final-project/images/zelda/arrow_top.png", SCALING)
+            elif self.player_direction == 'top':
+                missile = Weapon("final-project/images/arrow_top.png", SCALING)
                 shoot = Shooter(ShootUp())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
