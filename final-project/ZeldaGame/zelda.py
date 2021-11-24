@@ -2,11 +2,13 @@ import arcade
 import random
 
 from ZeldaGame.scaling import SCREEN_HEIGHT, SCREEN_WIDTH, SCALING, SPRITE_SCALING
+
 from ZeldaGame.enemy import Enemy
 from ZeldaGame.obstacles import Obstacle
 from ZeldaGame.room import Room
 from ZeldaGame.weapon import Weapon
 from ZeldaGame.obstacles_lists import *
+
 from ZeldaGame.fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
 
 SCREEN_TITLE = "The remixed Legend of Zelda"
@@ -29,16 +31,19 @@ class ZeldaGame(arcade.Window):
         self._enemy = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
         self._enemy2 = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
 
+
     def setup(self):
         """Get the game ready to play
         """
 
          # Set up the player
-        self.player = arcade.Sprite("final-project/project/images/zelda/front_run1.png", SCALING/2.5)
+
+        self.player = arcade.Sprite("final-project/images/zelda/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
         self.paused = False
+
         self.player_direction = 'right'
         
 
@@ -60,6 +65,7 @@ class ZeldaGame(arcade.Window):
             self.blue_box_right.position_obstacle(box[0], box[1])
             self.room.add_wall_to_remove(self.blue_box_right)  
 
+
         # Create a physics engine for this room
         self.physics_engine = arcade.PhysicsEngineSimple(self.player,
                                                          self.room.sprite_list)
@@ -67,6 +73,7 @@ class ZeldaGame(arcade.Window):
 # ########## Load background music
 # ########## Sound source: http://ccmixter.org/files/Apoxode/59262
 # ########## License: https://creativecommons.org/licenses/by/3.0/
+
 
         self.background_music = arcade.load_sound(
             "final-project/project/sounds/Apoxode_-_Electric_1.wav"
@@ -87,6 +94,7 @@ class ZeldaGame(arcade.Window):
         """Starts playing the background music
     """
         self.background_music.play()
+
 
 
     def add_enemy(self, delta_time: float):
@@ -110,6 +118,7 @@ class ZeldaGame(arcade.Window):
         self.all_sprites.append(self._enemy)
         self.enemies_list.append(self._enemy2)
         self.all_sprites.append(self._enemy2)
+
     
     def on_key_press(self, symbol, modifiers):
 
@@ -131,27 +140,29 @@ class ZeldaGame(arcade.Window):
             self.paused = not self.paused
 
         if symbol == arcade.key.SPACE:
-            if self.player_direction == 'right':
-                missile = Weapon("final-project/project/images/zelda/arrow_right.png", SCALING)
+
+            if self.shoot_direction == 'right':
+                missile = Weapon("final-project/images/zelda/arrow_right.png", SCALING)
                 shoot = Shooter(ShootRight())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
-            elif self.player_direction == 'left':
-                missile = Weapon("final-project/project/images/zelda/arrow_left.png", SCALING)
+            elif self.shoot_direction == 'left':
+                missile = Weapon("final-project/images/zelda/arrow_left.png", SCALING)
                 shoot = Shooter(ShootLeft())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
-            elif self.player_direction == 'down':
-                missile = Weapon("final-project/project/images/zelda/arrow_down.png", SCALING)
+            elif self.shoot_direction == 'down':
+                missile = Weapon("final-project/images/zelda/arrow_down.png", SCALING)
                 shoot = Shooter(ShootDown())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
-            elif self.player_direction == 'top':
-                missile = Weapon("final-project/project/images/zelda/arrow_top.png", SCALING)
+            elif self.shoot_direction == 'top':
+                missile = Weapon("final-project/images/zelda/arrow_top.png", SCALING)
                 shoot = Shooter(ShootUp())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
+
             self.player_direction = 'top'
             # self.move_up_sound.play()
             self.player.change_y = 5
@@ -164,6 +175,7 @@ class ZeldaGame(arcade.Window):
             self.player.change_y = -5
         elif symbol == arcade.key.D or symbol == arcade.key.RIGHT:
             self.player_direction = 'right'
+
             self.player.change_x = 5
 
     def on_key_release(self, symbol: int, modifiers: int):
@@ -197,8 +209,10 @@ class ZeldaGame(arcade.Window):
         # This line of code prevents player to go through the obstaclees
         self.physics_engine.update()
 
+
         self._enemy.update(5, 70)
         self._enemy2.update(5, 70)
+
 
         if self.player.collides_with_list(self.enemies_list):
             self.collision_sound.play()
@@ -210,6 +224,7 @@ class ZeldaGame(arcade.Window):
             collisions = enemy.collides_with_list(self.missile_list)
             if collisions:
                 self.collision_sound.play()
+
                 self.room.list_of_enemies.append(enemy)
                 enemy.remove_from_sprite_lists()
                 for missile in collisions:

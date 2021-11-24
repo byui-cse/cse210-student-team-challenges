@@ -13,6 +13,7 @@ class Room(MainObjects):
     def sprite_list(self):
         return self.__wall_list
 
+
     @property
     def wall_to_remove(self):
         return self.__wall_to_remove

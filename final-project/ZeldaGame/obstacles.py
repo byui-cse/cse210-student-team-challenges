@@ -11,3 +11,4 @@ class Obstacle(arcade.Sprite):
     def position_obstacle(self, left, bottom):
         self.left = left
         self.bottom = bottom
+

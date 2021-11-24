@@ -13,6 +13,7 @@ boxes_room1 = [
     [50, 549]
 ]
 
+
 blue_boxes = [
 
     # left
@@ -92,3 +93,4 @@ blue_boxes_right = [
     [775, 435],
     [775, 465]
 ]
+
