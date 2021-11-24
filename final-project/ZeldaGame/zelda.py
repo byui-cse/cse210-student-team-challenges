@@ -26,10 +26,10 @@ class ZeldaGame(arcade.Window):
         self.rooms_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("final-project/images/room1.png")
+        self.room = Room("cse210-student-team-challenges/final-project/images/room1.png")
         self.physics_engine = None
-        self._enemy = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
-        self._enemy2 = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
+        self._enemy = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
+        self._enemy2 = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
 
 
     def setup(self):
@@ -38,30 +38,31 @@ class ZeldaGame(arcade.Window):
 
          # Set up the player
 
-        self.player = arcade.Sprite("final-project/images/front_run1.png", SCALING/2.5)
+        self.player = arcade.Sprite("cse210-student-team-challenges/final-project/images/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
         self.paused = False
 
         self.player_direction = 'right'
+        self.shoot_direction = 'right'
         
 
         # Spawn a new enemy in 0 seconds
         arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('final-project/images/metal_box.png', SPRITE_SCALING)
+            self.box_room1 = Obstacle('cse210-student-team-challenges/final-project/images/metal_box.png', SPRITE_SCALING)
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1)
 
         for box in blue_boxes:
-            self.blue_box = Obstacle('final-project/images/bluebox.png', SPRITE_SCALING)
+            self.blue_box = Obstacle('cse210-student-team-challenges/final-project/images/bluebox.png', SPRITE_SCALING)
             self.blue_box.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.blue_box)
 
         for box in blue_boxes_right:
-            self.blue_box_right = Obstacle('final-project/images/bluebox.png', SPRITE_SCALING)
+            self.blue_box_right = Obstacle('cse210-student-team-challenges/final-project/images/bluebox.png', SPRITE_SCALING)
             self.blue_box_right.position_obstacle(box[0], box[1])
             self.room.add_wall_to_remove(self.blue_box_right)  
 
@@ -76,12 +77,12 @@ class ZeldaGame(arcade.Window):
 
 
         self.background_music = arcade.load_sound(
-            "final-project/sounds/Apoxode_-_Electric_1.wav"
+            "cse210-student-team-challenges/final-project/sounds/Apoxode_-_Electric_1.wav"
         )
 
 # ########## Load all the sounds
 # ########## Sound sources: Jon Fincher
-        self.collision_sound = arcade.load_sound("final-project/sounds/Collision.wav")
+        self.collision_sound = arcade.load_sound("cse210-student-team-challenges/final-project/sounds/Collision.wav")
         # self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
         # self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
 
@@ -139,44 +140,65 @@ class ZeldaGame(arcade.Window):
         if symbol == arcade.key.P:
             self.paused = not self.paused
 
-        if symbol == arcade.key.SPACE:
+        # if symbol == arcade.key.SPACE:
 
-            if self.player_direction == 'right':
-                missile = Weapon("final-project/images/arrow_right.png", SCALING)
-                shoot = Shooter(ShootRight())
-                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+        #     if self.shoot_direction == 'right':
+                
 
-            elif self.player_direction == 'left':
-                missile = Weapon("final-project/images/arrow_left.png", SCALING)
-                shoot = Shooter(ShootLeft())
-                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+        #     elif self.shoot_direction == 'left':
+                
                
-            elif self.player_direction == 'down':
-                missile = Weapon("final-project/images/arrow_down.png", SCALING)
-                shoot = Shooter(ShootDown())
-                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+        #     elif self.shoot_direction == 'down':
+                
                
-            elif self.player_direction == 'top':
-                missile = Weapon("final-project/images/arrow_top.png", SCALING)
-                shoot = Shooter(ShootUp())
-                shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+        #     elif self.shoot_direction == 'top':
 
-        if symbol == arcade.key.W or symbol == arcade.key.UP:
+        if symbol == arcade.key.W:
 
             self.player_direction = 'top'
             # self.move_up_sound.play()
             self.player.change_y = 5
-        elif symbol == arcade.key.A or symbol == arcade.key.LEFT:
+        elif symbol == arcade.key.A:
             self.player_direction = 'left'
             self.player.change_x = -5
-        elif symbol == arcade.key.S or symbol == arcade.key.DOWN:
+        elif symbol == arcade.key.S:
             self.player_direction = 'down'
             # self.move_down_sound.play()
             self.player.change_y = -5
-        elif symbol == arcade.key.D or symbol == arcade.key.RIGHT:
+        elif symbol == arcade.key.D:
             self.player_direction = 'right'
 
             self.player.change_x = 5
+
+        if symbol == arcade.key.UP:
+            self.shoot_direction = 'top'
+            # self.move_up_sound.play()
+            missile = Weapon("cse210-student-team-challenges/final-project/images/arrow_top.png", SCALING)
+            shoot = Shooter(ShootUp())
+            shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+            
+        elif  symbol == arcade.key.LEFT:
+            self.shoot_direction = 'left'
+            missile = Weapon("cse210-student-team-challenges/final-project/images/arrow_left.png", SCALING)
+            shoot = Shooter(ShootLeft())
+            shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+            
+        elif symbol == arcade.key.DOWN:
+            self.shoot_direction = 'down'
+            # self.move_down_sound.play()
+            missile = Weapon("cse210-student-team-challenges/final-project/images/arrow_down.png", SCALING)
+            shoot = Shooter(ShootDown())
+            shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+            
+        elif  symbol == arcade.key.RIGHT:
+            self.shoot_direction = 'right'
+            missile = Weapon("cse210-student-team-challenges/final-project/images/arrow_right.png", SCALING)
+            shoot = Shooter(ShootRight())
+            shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
+            
+
+            
+        
 
     def on_key_release(self, symbol: int, modifiers: int):
         """Undo movement vectors when movement keys are released
