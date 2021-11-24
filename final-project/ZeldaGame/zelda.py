@@ -22,7 +22,7 @@ class ZeldaGame(arcade.Window):
         self.enemies_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("final-project/project/images/zelda/room1.png")
+        self.room = Room("final-project/images/zelda/room1.png")
         self.physics_engine = None
         # file_path = os.path.dirname(os.path.abspath(__file__))
         # os.chdir(file_path)
@@ -33,7 +33,7 @@ class ZeldaGame(arcade.Window):
         """
 
          # Set up the player
-        self.player = arcade.Sprite("final-project/project/images/zelda/front_run1.png", SCALING/2.5)
+        self.player = arcade.Sprite("final-project/images/zelda/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
@@ -44,7 +44,7 @@ class ZeldaGame(arcade.Window):
         arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('final-project/project/images/zelda/metal_box.png')
+            self.box_room1 = Obstacle('final-project/images/zelda/metal_box.png')
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1.obstacle)
 
@@ -62,7 +62,7 @@ class ZeldaGame(arcade.Window):
 
 # ########## Load all the sounds
 # ########## Sound sources: Jon Fincher
-        self.collision_sound = arcade.load_sound("final-project/project/sounds/Collision.wav")
+        self.collision_sound = arcade.load_sound("final-project/sounds/Collision.wav")
 #         self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
 #         self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
 
@@ -87,7 +87,7 @@ class ZeldaGame(arcade.Window):
             return
 
         # First, create the the new enemy sprite
-        enemy = Obstacle("final-project/project/images/monster1.png")
+        enemy = Obstacle("final-project/images/monster1.png")
 
         # Set its position to a random height and off screen right
         enemy.position_obstacle(600, 150)
@@ -119,22 +119,22 @@ class ZeldaGame(arcade.Window):
 
         if symbol == arcade.key.SPACE:
             if self.shoot_direction == 'right':
-                missile = Weapon("final-project/project/images/zelda/arrow_right.png", SCALING)
+                missile = Weapon("final-project/images/zelda/arrow_right.png", SCALING)
                 shoot = Shooter(ShootRight())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
             elif self.shoot_direction == 'left':
-                missile = Weapon("final-project/project/images/zelda/arrow_left.png", SCALING)
+                missile = Weapon("final-project/images/zelda/arrow_left.png", SCALING)
                 shoot = Shooter(ShootLeft())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
             elif self.shoot_direction == 'down':
-                missile = Weapon("final-project/project/images/zelda/arrow_down.png", SCALING)
+                missile = Weapon("final-project/images/zelda/arrow_down.png", SCALING)
                 shoot = Shooter(ShootDown())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
                
             elif self.shoot_direction == 'top':
-                missile = Weapon("final-project/project/images/zelda/arrow_top.png", SCALING)
+                missile = Weapon("final-project/images/zelda/arrow_top.png", SCALING)
                 shoot = Shooter(ShootUp())
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
