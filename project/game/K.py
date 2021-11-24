@@ -6,6 +6,7 @@ SCREEN_TITLE = "Own-Game.py"
 # Character constants
 MOVEMENT_SPEED = 5
 SPRITE_SCALING = 0.8
+ENEMY_SCALING = 0.5
 
 # Physics
 GRAVITY = 1
