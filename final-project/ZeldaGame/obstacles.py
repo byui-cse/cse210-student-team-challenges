@@ -1,16 +1,14 @@
 import arcade
-from ZeldaGame.scaling import SPRITE_SCALING
 
 class Obstacle(arcade.Sprite):
     
-    def __init__(self, image):
-        self.__obstacle = arcade.Sprite(f"{image}",
-                                    SPRITE_SCALING)
+    def __init__(self, filename, sprite_scaling):
+    
+        super().__init__(filename, sprite_scaling)
+        self.moving_left = True
+        self.moving_right = False
 
     def position_obstacle(self, left, bottom):
-        self.__obstacle.left = left
-        self.__obstacle.bottom = bottom
+        self.left = left
+        self.bottom = bottom
 
-    @property
-    def obstacle(self):
-        return self.__obstacle

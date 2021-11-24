@@ -2,10 +2,13 @@ import arcade
 import random
 
 from ZeldaGame.scaling import SCREEN_HEIGHT, SCREEN_WIDTH, SCALING, SPRITE_SCALING
+
+from ZeldaGame.enemy import Enemy
 from ZeldaGame.obstacles import Obstacle
 from ZeldaGame.room import Room
 from ZeldaGame.weapon import Weapon
-from ZeldaGame.obstacles_lists import boxes_room1
+from ZeldaGame.obstacles_lists import *
+
 from ZeldaGame.fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
 
 SCREEN_TITLE = "The remixed Legend of Zelda"
@@ -20,12 +23,13 @@ class ZeldaGame(arcade.Window):
         super().__init__(width, height, title)
 
         self.enemies_list = arcade.SpriteList()
+        self.rooms_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("final-project/images/zelda/room1.png")
+        self.room = Room("final-project/project/images/zelda/room1.png")
         self.physics_engine = None
-        # file_path = os.path.dirname(os.path.abspath(__file__))
-        # os.chdir(file_path)
+        self._enemy = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
+        self._enemy2 = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
 
 
     def setup(self):
@@ -33,20 +37,34 @@ class ZeldaGame(arcade.Window):
         """
 
          # Set up the player
+
         self.player = arcade.Sprite("final-project/images/zelda/front_run1.png", SCALING/2.5)
         self.player.center_y = self.height/2
         self.player.left = 10
         self.all_sprites.append(self.player)
         self.paused = False
-        self.shoot_direction = 'right'
 
-        # Spawn a new enemy every 3 seconds
+        self.player_direction = 'right'
+        
+
+        # Spawn a new enemy in 0 seconds
         arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('final-project/images/zelda/metal_box.png')
+            self.box_room1 = Obstacle('final-project/project/images/zelda/metal_box.png', SPRITE_SCALING)
             self.box_room1.position_obstacle(box[0], box[1])
-            self.room.add_sprite(self.box_room1.obstacle)
+            self.room.add_sprite(self.box_room1)
+
+        for box in blue_boxes:
+            self.blue_box = Obstacle('final-project/project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box.position_obstacle(box[0], box[1])
+            self.room.add_sprite(self.blue_box)
+
+        for box in blue_boxes_right:
+            self.blue_box_right = Obstacle('final-project/project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box_right.position_obstacle(box[0], box[1])
+            self.room.add_wall_to_remove(self.blue_box_right)  
+
 
         # Create a physics engine for this room
         self.physics_engine = arcade.PhysicsEngineSimple(self.player,
@@ -56,25 +74,27 @@ class ZeldaGame(arcade.Window):
 # ########## Sound source: http://ccmixter.org/files/Apoxode/59262
 # ########## License: https://creativecommons.org/licenses/by/3.0/
 
-        # self.background_music = arcade.load_sound(
-        #     "project/sounds/Apoxode_-_Electric_1.wav"
-        # )
+
+        self.background_music = arcade.load_sound(
+            "final-project/project/sounds/Apoxode_-_Electric_1.wav"
+        )
 
 # ########## Load all the sounds
 # ########## Sound sources: Jon Fincher
-        self.collision_sound = arcade.load_sound("final-project/sounds/Collision.wav")
-#         self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
-#         self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
+        self.collision_sound = arcade.load_sound("final-project/project/sounds/Collision.wav")
+        # self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
+        # self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
 
 
 # ########## Play the background music and schedule the loop
-    #     self.play_background_music()
-    #     arcade.schedule(self.play_background_music, 15)
+        self.play_background_music()
+        arcade.schedule(self.play_background_music, 15)
 
-    # def play_background_music(self, delta_time: int = 0):
-    #     """Starts playing the background music
-    # """
-    #     self.background_music.play()
+    def play_background_music(self, delta_time: int = 0):
+        """Starts playing the background music
+    """
+        self.background_music.play()
+
 
 
     def add_enemy(self, delta_time: float):
@@ -86,17 +106,19 @@ class ZeldaGame(arcade.Window):
         if self.paused:
             return
 
-        # First, create the the new enemy sprite
-        enemy = Obstacle("final-project/images/monster1.png")
-
         # Set its position to a random height and off screen right
-        enemy.position_obstacle(600, 150)
+        self._enemy2.position_enemy(100, 400)
+
+        self._enemy.position_enemy(600, 150)
         # Set its speed to a random speed heading left
-        # enemy.velocity = (random.randint(-200, -80), 0)
+        # self._enemy.velocity = (random.randint(-200, -80), 0)
 
         # Add it to the enemies list
-        self.enemies_list.append(enemy.obstacle)
-        self.all_sprites.append(enemy.obstacle)
+        self.enemies_list.append(self._enemy)
+        self.all_sprites.append(self._enemy)
+        self.enemies_list.append(self._enemy2)
+        self.all_sprites.append(self._enemy2)
+
     
     def on_key_press(self, symbol, modifiers):
 
@@ -118,6 +140,7 @@ class ZeldaGame(arcade.Window):
             self.paused = not self.paused
 
         if symbol == arcade.key.SPACE:
+
             if self.shoot_direction == 'right':
                 missile = Weapon("final-project/images/zelda/arrow_right.png", SCALING)
                 shoot = Shooter(ShootRight())
@@ -139,18 +162,20 @@ class ZeldaGame(arcade.Window):
                 shoot.do_shoot(self.player, missile, self.missile_list, self.all_sprites)
 
         if symbol == arcade.key.W or symbol == arcade.key.UP:
-            self.shoot_direction = 'top'
+
+            self.player_direction = 'top'
             # self.move_up_sound.play()
             self.player.change_y = 5
         elif symbol == arcade.key.A or symbol == arcade.key.LEFT:
-            self.shoot_direction = 'left'
+            self.player_direction = 'left'
             self.player.change_x = -5
         elif symbol == arcade.key.S or symbol == arcade.key.DOWN:
-            self.shoot_direction = 'down'
+            self.player_direction = 'down'
             # self.move_down_sound.play()
             self.player.change_y = -5
         elif symbol == arcade.key.D or symbol == arcade.key.RIGHT:
-            self.shoot_direction = 'right'
+            self.player_direction = 'right'
+
             self.player.change_x = 5
 
     def on_key_release(self, symbol: int, modifiers: int):
@@ -185,6 +210,10 @@ class ZeldaGame(arcade.Window):
         self.physics_engine.update()
 
 
+        self._enemy.update(5, 70)
+        self._enemy2.update(5, 70)
+
+
         if self.player.collides_with_list(self.enemies_list):
             self.collision_sound.play()
             # Stop the game and schedule the game close
@@ -195,9 +224,14 @@ class ZeldaGame(arcade.Window):
             collisions = enemy.collides_with_list(self.missile_list)
             if collisions:
                 self.collision_sound.play()
+
+                self.room.list_of_enemies.append(enemy)
                 enemy.remove_from_sprite_lists()
                 for missile in collisions:
-                    missile.remove_from_sprite_lists()
+                    missile.remove_from_sprite_lists()            
+        
+        # This removes all the right boxes if the count of enemies died are 2 (just for room1)
+        self.room.remove_walls(2)
 
         # Update everything
         for sprite in self.all_sprites:
@@ -229,6 +263,7 @@ class ZeldaGame(arcade.Window):
                                             self.room.background)
         # Draw all the walls in this room
         self.room.sprite_list.draw()
+        self.room.wall_to_remove.draw()
 
         self.all_sprites.draw()
 
