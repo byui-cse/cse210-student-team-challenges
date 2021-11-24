@@ -26,10 +26,10 @@ class ZeldaGame(arcade.Window):
         self.rooms_list = arcade.SpriteList()
         self.missile_list = arcade.SpriteList()
         self.all_sprites = arcade.SpriteList()
-        self.room = Room("final-project/project/images/zelda/room1.png")
+        self.room = Room("final-project/images/zelda/room1.png")
         self.physics_engine = None
-        self._enemy = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
-        self._enemy2 = Enemy("final-project/project/images/monster1.png", SPRITE_SCALING)
+        self._enemy = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
+        self._enemy2 = Enemy("final-project/images/monster1.png", SPRITE_SCALING)
 
 
     def setup(self):
@@ -51,17 +51,17 @@ class ZeldaGame(arcade.Window):
         arcade.schedule(self.add_enemy, 0)
 
         for box in boxes_room1:
-            self.box_room1 = Obstacle('final-project/project/images/zelda/metal_box.png', SPRITE_SCALING)
+            self.box_room1 = Obstacle('final-project/images/zelda/metal_box.png', SPRITE_SCALING)
             self.box_room1.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.box_room1)
 
         for box in blue_boxes:
-            self.blue_box = Obstacle('final-project/project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box = Obstacle('final-project/images/zelda/bluebox.png', SPRITE_SCALING)
             self.blue_box.position_obstacle(box[0], box[1])
             self.room.add_sprite(self.blue_box)
 
         for box in blue_boxes_right:
-            self.blue_box_right = Obstacle('final-project/project/images/zelda/bluebox.png', SPRITE_SCALING)
+            self.blue_box_right = Obstacle('final-project/images/zelda/bluebox.png', SPRITE_SCALING)
             self.blue_box_right.position_obstacle(box[0], box[1])
             self.room.add_wall_to_remove(self.blue_box_right)  
 
@@ -76,12 +76,12 @@ class ZeldaGame(arcade.Window):
 
 
         self.background_music = arcade.load_sound(
-            "final-project/project/sounds/Apoxode_-_Electric_1.wav"
+            "final-project/sounds/Apoxode_-_Electric_1.wav"
         )
 
 # ########## Load all the sounds
 # ########## Sound sources: Jon Fincher
-        self.collision_sound = arcade.load_sound("final-project/project/sounds/Collision.wav")
+        self.collision_sound = arcade.load_sound("final-project/sounds/Collision.wav")
         # self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
         # self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
 
