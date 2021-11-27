@@ -1,7 +1,6 @@
 from time import sleep
 from game import constants
 from game import bird
-from game import point
 from game import stone
 import arcade 
 
@@ -29,7 +28,8 @@ class Director(arcade.Window):
             self (Director): an instance of Director.
         """
         #self.background = None
-        self.background = arcade.load_texture("cse210-student-team-challenges/final-project/assets/background.png")
+        base = constants.get_base()
+        self.background = arcade.load_texture(f"{base}/background.png")
         #arcade.set_background_color(arcade.csscolor.SKY_BLUE)
         self._bird = bird.Bird()
         self._keep_playing = True
@@ -82,7 +82,7 @@ class Director(arcade.Window):
             self._bird.move_left()
         # Check if dropping stone, and if so drop it, and reset the flag
         if self._drop_stone:
-            self._stone_list.append(stone.Stone(self._bird.get_position()))
+            self._stone_list.append(stone.Stone(center_x=self._bird.center_x,center_y=self._bird.center_y))
             self._drop_stone = False
 
     def _do_outputs(self):
@@ -93,9 +93,11 @@ class Director(arcade.Window):
         """
         arcade.start_render()
         arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, self.background)
-        self._bird.move()
+        #self._bird.move()
+        self._bird.update()
         self._bird.draw()
         for stone in self._stone_list:
-            stone.move()
+            #stone.move()
+            stone.update()
             stone.draw()
         arcade.finish_render()

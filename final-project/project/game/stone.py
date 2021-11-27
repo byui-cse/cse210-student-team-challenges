@@ -1,11 +1,8 @@
 
 from game import constants
-from game.point import Point
-from game.actor import Actor
-from game.point import Point
 import arcade
 
-class Stone(Actor):
+class Stone(arcade.Sprite):
     """A visible, moveable thing that participates in the game. In this case, a stone.
     Stereotype:
         Information Holder
@@ -13,14 +10,14 @@ class Stone(Actor):
         Same as Actor.
     """
 
-    def __init__(self, pos):
+    def __init__(self, center_x, center_y):
         """The class constructor.
         
         Args:
             self (Stone): An instance of Stone
-            pos (Point): An initial position
+            pos (List): An initial position
         """
-        super().__init__()
-        self.set_sprite(arcade.Sprite("cse210-student-team-challenges/final-project/assets/stone.png",0.04))
-        self.set_position(pos)
-        self.set_velocity(Point(0,-3))
+        base = constants.get_base()
+        super().__init__(f"{base}/stone.png",0.04)
+        self.set_position(center_x, center_y)
+        self.change_y = -constants.STONE_SPEED

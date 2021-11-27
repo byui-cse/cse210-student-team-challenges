@@ -1,29 +1,28 @@
 
 from game import constants
-from game.point import Point
-from game.actor import Actor
-from game.point import Point
 import arcade
+import os
 
-class Bird(Actor):
+class Bird(arcade.Sprite):
     """A visible, moveable thing that participates in the game. In this case, a bird.
     Stereotype:
         Information Holder
     Attributes:
-        Same as Actor.
+        Same as Sprite.
     """
 
     def __init__(self):
         """The class constructor."""
-        super().__init__()
-        self.set_sprite(arcade.Sprite("cse210-student-team-challenges/final-project/assets/bird.png",0.15))
-        self.set_position(Point(100,525))
-        self.set_velocity(Point(0,0))
+        base = constants.get_base()
+        super().__init__(f"{base}/bird.png",0.15)
+        self.set_position(center_x=100,center_y=525)
     def move_right(self):
         """Move the bird to the right."""
-        self.set_velocity(Point(3,0))
-        self.move()
+        self.change_x = constants.BIRD_SPEED
+        #self.update()
+        #self.forward(speed=constants.BIRD_SPEED)
     def move_left(self):
         """Move the bird to the left."""
-        self.set_velocity(Point(-3,0))
-        self.move()
+        self.change_x = -constants.BIRD_SPEED
+        #self.update()
+        #self.forward(speed=-constants.BIRD_SPEED)
