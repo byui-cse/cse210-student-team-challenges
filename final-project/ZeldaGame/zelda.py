@@ -32,6 +32,7 @@ class ZeldaGame(arcade.Window):
         self._enemy = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
         self._enemy2 = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
         self.player = Player()
+        self.health = 99
 
     def setup(self):
         """Get the game ready to play
@@ -240,20 +241,26 @@ class ZeldaGame(arcade.Window):
 
 
         if self.player.collides_with_list(self.enemies_list):
+            # if delta_time >=3:
             self.collision_sound.play()
+
+            if self.health > 0:
+                self.health -= 1
             # Stop the game and schedule the game close
-            self.paused = True
-            arcade.schedule(lambda delta_time: arcade.close_window(), 0.5)
+            else:
+                self.paused = True
+                arcade.schedule(lambda delta_time: arcade.close_window(), 0.5)
 
         for enemy in self.enemies_list:
             collisions = enemy.collides_with_list(self.missile_list)
             if collisions:
                 self.collision_sound.play()
-
-                self.room.list_of_enemies.append(enemy)
-                enemy.remove_from_sprite_lists()
                 for missile in collisions:
-                    missile.remove_from_sprite_lists()            
+                    missile.remove_from_sprite_lists()  
+                    enemy.health -=1          
+                if enemy.health <= 0:
+                    self.room.list_of_enemies.append(enemy)
+                    enemy.remove_from_sprite_lists()
         
         # This removes all the right boxes if the count of enemies died are 2 (just for room1)
         self.room.remove_walls(2)
@@ -289,6 +296,7 @@ class ZeldaGame(arcade.Window):
         # Draw all the walls in this room
         self.room.sprite_list.draw()
         self.room.wall_to_remove.draw()
+        arcade.draw_text(f"Health: {self.health + 1}", 2, 10, arcade.color.RED, 12)
 
         self.all_sprites.draw()
         self.player.draw()
