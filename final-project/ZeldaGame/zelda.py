@@ -8,6 +8,7 @@ from ZeldaGame.obstacles import Obstacle
 from ZeldaGame.room import Room
 from ZeldaGame.weapon import Weapon
 from ZeldaGame.obstacles_lists import *
+from ZeldaGame.player import Player
 
 from ZeldaGame.fire import Shooter, ShootUp, ShootDown, ShootLeft, ShootRight
 
@@ -30,7 +31,7 @@ class ZeldaGame(arcade.Window):
         self.physics_engine = None
         self._enemy = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
         self._enemy2 = Enemy("cse210-student-team-challenges/final-project/images/monster1.png", SPRITE_SCALING)
-
+        self.player = Player()
 
     def setup(self):
         """Get the game ready to play
@@ -38,8 +39,10 @@ class ZeldaGame(arcade.Window):
 
          # Set up the player
 
-        self.player = arcade.Sprite("cse210-student-team-challenges/final-project/images/front_run1.png", SCALING/2.5)
-        self.player.center_y = self.height/2
+        #self.player = arcade.Sprite("cse210-student-team-challenges/final-project/images/front_run1.png", SCALING/2.5)
+        self.player.center_x = 400
+        self.player.center_y = self.height / 2
+        self.player.scale = 0.5
         self.player.left = 10
         self.all_sprites.append(self.player)
         self.paused = False
@@ -167,7 +170,6 @@ class ZeldaGame(arcade.Window):
             self.player.change_y = -5
         elif symbol == arcade.key.D:
             self.player_direction = 'right'
-
             self.player.change_x = 5
 
         if symbol == arcade.key.UP:
@@ -225,6 +227,7 @@ class ZeldaGame(arcade.Window):
     def on_update(self, delta_time: float):
         """Update all game objects
         """
+        self.player.update()
         if self.paused:
             return
 
@@ -288,6 +291,7 @@ class ZeldaGame(arcade.Window):
         self.room.wall_to_remove.draw()
 
         self.all_sprites.draw()
+        self.player.draw()
 
 
 if __name__ == "__main__":
