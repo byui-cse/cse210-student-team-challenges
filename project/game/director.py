@@ -6,7 +6,7 @@ from game import K
 
 
 import arcade
-import time
+import random
 
 class Screen(arcade.Window):
     #The inheritance of the window class automatically starts the screen
@@ -22,22 +22,28 @@ class Screen(arcade.Window):
         self.physics_engine = None
         self.scene = None
 
+        self.sounds.play_music()
     def setup(self):
         # Initialize Scene
         self.scene = arcade.Scene()
 
         # Populate the ground with spikes
-        for x in range(0, 1250, 64):
-            wall = arcade.Sprite(":resources:images/tiles/spikes.png") # Last parameter is for resizing (optional)
-            wall.center_x = x
-            wall.center_y = 32
-            self.scene.add_sprite("Walls", wall)
+        for x in range(0, 1250, 37):
+            wall1 = arcade.Sprite("project\game\images\metalblock.png", 0.2) # Last parameter is for resizing (optional)
+            wall1.center_x = x
+            wall1.center_y = 15
+
+            self.scene.add_sprite("Walls", wall1)
+        for y in range(0,7):
+            block = arcade.Sprite("project/game/images/rockblock.jpg",0.2)
+            block.center_x = random.randint(50, 990)
+            block.center_y = random.randint(15, 490)
+            self.scene.add_sprite("Walls", block)
             
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
-        # self.scene.add_sprite("Walls", self.platforms)
-
+        # self.scene.add_sprite("Walls", self.platforms)        
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
         self.player = Player(":resources:images/animated_characters/robot/robot_walk0.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
@@ -104,6 +110,6 @@ class Screen(arcade.Window):
         self.sprite_list.update()
 
         # Allow the platforms to keeep moving      
-        self.platforms.center_x -= K.PLATFORM_SPEED 
+        self.platforms.center_x -= K.PLATFORM_SPEED
 
 
