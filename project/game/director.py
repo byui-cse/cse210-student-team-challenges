@@ -22,6 +22,7 @@ class Screen(arcade.Window):
         self.physics_engine = None
         self.scene = None
 
+        self.sounds.play_music()
     def setup(self):
         # Initialize Scene
         self.scene = arcade.Scene()

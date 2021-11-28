@@ -14,6 +14,7 @@ PLAYER_MOVEMENT_SPEED = 5
 
 # Background constants
 BACKGROUND_SCALE = 2.5
+MUSIC_VOLUME = 0.3
 
 #Platforms constants
 PLATFORM_SPEED = 1
