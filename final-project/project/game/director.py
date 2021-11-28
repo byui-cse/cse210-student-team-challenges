@@ -2,6 +2,8 @@ from time import sleep
 from game import constants
 from game import bird
 from game import stone
+from game import car
+import random
 import arcade 
 
 class Director(arcade.Window):
@@ -35,7 +37,8 @@ class Director(arcade.Window):
         self._keep_playing = True
         self._direction = 1
         self._drop_stone = False
-        self._stone_list = []
+        self._stone_list = arcade.SpriteList()
+        self._car_list = arcade.SpriteList()
         arcade.run()
 
     def on_draw(self):
@@ -82,8 +85,19 @@ class Director(arcade.Window):
             self._bird.move_left()
         # Check if dropping stone, and if so drop it, and reset the flag
         if self._drop_stone:
-            self._stone_list.append(stone.Stone(center_x=self._bird.center_x,center_y=self._bird.center_y))
+            this_stone = stone.Stone(center_x=self._bird.center_x,center_y=self._bird.center_y)
+            self._stone_list.append(this_stone)
+            this_stone.register_sprite_list(self._stone_list)
             self._drop_stone = False
+        # Collision detection
+        #for stone in stone_list()
+        #all_collisions = arcade.check_for_collision_with_list(enemy, self.list_blocks)
+        # Create cars
+        if random.random() < 0.01:
+            this_car = car.Car()
+            self._car_list.append(this_car)
+            this_car.register_sprite_list(self._car_list)
+            pass
 
     def _do_outputs(self):
         """Outputs the important game information for each round of play. 
@@ -93,11 +107,12 @@ class Director(arcade.Window):
         """
         arcade.start_render()
         arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, self.background)
-        #self._bird.move()
         self._bird.update()
         self._bird.draw()
-        for stone in self._stone_list:
-            #stone.move()
-            stone.update()
-            stone.draw()
+        # Draw stones
+        self._stone_list.update()
+        self._stone_list.draw()
+        # Draw cars
+        self._car_list.update()
+        self._car_list.draw()
         arcade.finish_render()
