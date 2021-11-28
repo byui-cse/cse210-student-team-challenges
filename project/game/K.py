@@ -1,7 +1,7 @@
 # Screen constants
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 500
-SCREEN_TITLE = "Own-Game.py"
+SCREEN_TITLE = "Crazy Lab.py"
 
 # Character constants
 MOVEMENT_SPEED = 5
@@ -14,7 +14,7 @@ PLAYER_MOVEMENT_SPEED = 5
 
 # Background constants
 BACKGROUND_SCALE = 2.5
-MUSIC_VOLUME = 0.3
+MUSIC_VOLUME = 0.1
 
 #Platforms constants
 PLATFORM_SPEED = 1
