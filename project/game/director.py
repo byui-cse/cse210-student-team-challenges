@@ -85,7 +85,7 @@ class Screen(arcade.Window):
             if self.physics_engine.can_jump():
                 self.player.change_y = K.PLAYER_JUMP_SPEED
             self.player.change_y = K.PLAYER_JUMP_SPEED
-            self.sounds.play_sound()
+            self.sounds.play_jump_sound()
         elif key == arcade.key.DOWN:
             self.player.change_y = -K.MOVEMENT_SPEED
 
