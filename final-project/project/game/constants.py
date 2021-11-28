@@ -10,6 +10,7 @@ SCREEN_TITLE="Kerchunk!"
 BIRD_SPEED = 3
 STONE_SPEED = 3
 CAR_SPEED = 3
+G = 2
 
 def get_base():
     base = ""

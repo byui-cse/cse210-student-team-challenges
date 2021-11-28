@@ -21,3 +21,6 @@ class Stone(arcade.Sprite):
         super().__init__(f"{base}/stone.png",0.04)
         self.set_position(center_x, center_y)
         self.change_y = -constants.STONE_SPEED
+    def on_update(self, time_delta):
+        self.change_y -= self.G
+        pass

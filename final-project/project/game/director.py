@@ -90,8 +90,14 @@ class Director(arcade.Window):
             this_stone.register_sprite_list(self._stone_list)
             self._drop_stone = False
         # Collision detection
-        #for stone in stone_list()
-        #all_collisions = arcade.check_for_collision_with_list(enemy, self.list_blocks)
+        for this_stone in self._stone_list:
+            all_collisions = arcade.check_for_collision_with_list(this_stone, self._car_list)
+            if len(all_collisions) > 0:
+                for this_car in all_collisions:
+                    this_car.kill()
+                    this_stone.kill()
+
+            
         # Create cars
         if random.random() < 0.01:
             this_car = car.Car()
