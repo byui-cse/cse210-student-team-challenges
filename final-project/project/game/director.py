@@ -99,7 +99,7 @@ class Director(arcade.Window):
 
             
         # Create cars
-        if random.random() < 0.01:
+        if random.random() < 0.02:
             this_car = car.Car()
             self._car_list.append(this_car)
             this_car.register_sprite_list(self._car_list)

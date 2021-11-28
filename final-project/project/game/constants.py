@@ -13,9 +13,11 @@ CAR_SPEED = 3
 G = 2
 
 def get_base():
-    base = ""
+    base = None
     bases = ["cse210-student-team-challenges/final-project/assets", "../assets", "/assets","assets","final-project/assets"]
     for base_name in bases:
         if os.path.exists(base_name):
             base = base_name
+    if base is None:
+        raise Exception("Cannot find asset path. Please contact the developers.")
     return base
