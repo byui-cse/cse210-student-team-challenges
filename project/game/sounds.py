@@ -18,7 +18,7 @@ class Sounds:
         arcade.load_sound(self.jump_sound_file)
 
     def play_jump_sound(self):
-        self.jump_sound.play(1, 0, False)
+        self.jump_sound.play(K.JUMP_VOLUME, 0, False)
     
 
     def stop_sound(self):

@@ -2,6 +2,7 @@ from game.player import Player
 from game.background import Background
 from game.sounds import Sounds
 from game.platforms import Platforms
+from game.enemies import Enemies
 from game import K
 
 
@@ -18,7 +19,10 @@ class Screen(arcade.Window):
         # Creating an instance that manages the sprites
         self.sprite_list = arcade.SpriteList()
         self.background_list = arcade.SpriteList()
+        self.enemies_list = arcade.SpriteList()
         self.sounds = Sounds()
+        self.enemies = Enemies()
+
         self.physics_engine = None
         self.scene = None
 
@@ -43,7 +47,13 @@ class Screen(arcade.Window):
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
-        # self.scene.add_sprite("Walls", self.platforms)        
+        # self.scene.add_sprite("Walls", self.platforms)   
+        for z in range(0,3):
+            self.enemy = Enemies("project/game/images/podooboo.png", K.ENEMY_SCALING)
+            self.enemy.center_x = random.randint(90, 990)
+            self.enemy.center_y = random.randint(60, 70)
+            self.enemies_list.append(self.enemy)
+             
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
         self.player = Player(":resources:images/animated_characters/robot/robot_walk0.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
@@ -77,6 +87,7 @@ class Screen(arcade.Window):
         self.platforms.draw()
         self.sprite_list.draw()
         self.scene.draw()
+        self.enemies_list.draw()
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -112,4 +123,20 @@ class Screen(arcade.Window):
         # Allow the platforms to keeep moving      
         self.platforms.center_x -= K.PLATFORM_SPEED
 
+        #Enemy moving
+    
+        UP = True
+        for a in self.enemies_list:
+            if a.top < K.SCREEN_HEIGHT and UP == True:
+                a.center_y += 5
+            if a.top > K.SCREEN_HEIGHT:
+                UP = False
+            if UP == False:
+                a.center_y -= 5
+            if a.bottom < 20:
+                UP = True
 
+        #collitions
+        colliding = arcade.check_for_collision_with_list(self.player, self.enemies_list)
+        if colliding:
+            exit()    
