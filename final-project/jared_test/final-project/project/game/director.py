@@ -23,6 +23,8 @@ class Director(arcade.Window):
         self.surface_list = None
         self.surfArt_list = None
         self.star_list = None
+        self.main_screen_list = None
+        self.start_game = False
         self.game_over = False
 
 
@@ -31,11 +33,13 @@ class Director(arcade.Window):
         self.hit_meteor_sound = arcade.Sound(":resources:sounds/hurt1.wav")
         self.hit_saucer_sound = arcade.Sound(":resources:sounds/hit1.wav")
         self.hit_surface_sound = arcade.Sound(":resources:sounds/hurt1.wav")
+        self.begin_game_sound = arcade.Sound(":resources:sounds/upgrade4.wav")
         self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
 
 
         self.player_sprite = None
         self.score = 0
+        self.highscore = 0
         self.level = 0
 
 
@@ -48,6 +52,7 @@ class Director(arcade.Window):
         self.surface_sprite = None
         self.surfArt_sprite = None
         self.star_sprite = None
+        self.main_screen_sprite = None
 
 
     def setup(self):
@@ -60,15 +65,18 @@ class Director(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.surfArt_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
+        self.main_screen_list = arcade.SpriteList()
         self.score = 0
+        self.highscore = 0
         self.level = 1
+        self.restart_timer = 0
         self.bomb_amount = 10
 
 
         self.player_sprite = arcade.Sprite(":resources:images/space_shooter/playerShip2_orange.png", constants.PLAYER_SCALING)
         self.player_sprite.angle = 270
         self.player_sprite.center_x = 64
-        self.player_sprite.center_y = 500
+        self.player_sprite.center_y = 490
         self.player_sprite.change_x = constants.PLAYER_SPEED
         self.player_list.append(self.player_sprite)
 
@@ -110,34 +118,40 @@ class Director(arcade.Window):
                         self.star_sprite = arcade.Sprite(":resources:onscreen_controls/shaded_light/unchecked.png", constants.STAR_SCALING)
                         self.star_sprite.center_x = x
                         self.star_sprite.center_y = y
-                        self.star_list.append(self.star_sprite)
+                        self.star_list.append(self.star_sprite) 
 
 
     def on_key_press(self, key, modifiers):
-        if self.game_over == False:
-            if key == arcade.key.RIGHT:
-                self.player_sprite.change_x = constants.PLAYER_SPEED
-                self.player_sprite.angle = 270
-            elif key == arcade.key.LEFT:
-                self.player_sprite.change_x = -constants.PLAYER_SPEED
-                self.player_sprite.angle = 90
-            elif key == arcade.key.SPACE:
-                self.bomb_sprite = arcade.Sprite(":resources:images/topdown_tanks/tankRed_barrel1_outline.png", constants.BOMB_SCALING)
-                self.bomb_sprite.center_x = self.player_sprite.center_x
-                self.bomb_sprite.center_y = self.player_sprite.center_y
-                self.bomb_sprite.change_y = -constants.BOMB_SPEED
-                if len(self.bomb_list) < 1:
-                    self.bomb_list.append(self.bomb_sprite)
-                    self.drop_bomb_sound.play()
-                    self.bomb_amount -= 1
+        if self.start_game == False:
+            if key == arcade.key.RETURN:
+                self.start_game = True
+                self.begin_game_sound.play()
+        if self.start_game == True:
+            if self.game_over == False:
+                if key == arcade.key.RIGHT:
+                    self.player_sprite.change_x = constants.PLAYER_SPEED
+                    self.player_sprite.angle = 270
+                elif key == arcade.key.LEFT:
+                    self.player_sprite.change_x = -constants.PLAYER_SPEED
+                    self.player_sprite.angle = 90
+                elif key == arcade.key.SPACE:
+                    self.bomb_sprite = arcade.Sprite(":resources:images/topdown_tanks/tankRed_barrel1_outline.png", constants.BOMB_SCALING)
+                    self.bomb_sprite.center_x = self.player_sprite.center_x
+                    self.bomb_sprite.center_y = self.player_sprite.center_y
+                    self.bomb_sprite.change_y = -constants.BOMB_SPEED
+                    if len(self.bomb_list) < 1:
+                        self.bomb_list.append(self.bomb_sprite)
+                        self.drop_bomb_sound.play()
+                        self.bomb_amount -= 1
 
 
     def on_key_release(self, key, modifiers):
-        if self.game_over == False:
-            if key == arcade.key.RIGHT:
-                self.player_sprite.change_x = constants.PLAYER_SPEED
-            elif key == arcade.key.LEFT:
-                self.player_sprite.change_x = -constants.PLAYER_SPEED
+        if self.start_game == True:
+            if self.game_over == False:
+                if key == arcade.key.RIGHT:
+                    self.player_sprite.change_x = constants.PLAYER_SPEED
+                elif key == arcade.key.LEFT:
+                    self.player_sprite.change_x = -constants.PLAYER_SPEED
 
 
     def on_update(self, delta_time: float = 1 / 60):
@@ -183,7 +197,7 @@ class Director(arcade.Window):
                 self.hit_saucer_sound.play()
                 self.score += 1
                 self.level += 1
-                self.bomb_amount += 2
+                self.bomb_amount += 1
 
 
         for self.meteor_sprite in self.meteor_list:
@@ -200,6 +214,9 @@ class Director(arcade.Window):
             elif self.saucer_sprite.center_x < (constants.SCREEN_WIDTH -800):
                 self.saucer_sprite.change_x = current_speed
 
+        if self.game_over == True:
+            self.restart_timer += 1
+
 
     def on_draw(self):
         arcade.start_render()
@@ -212,12 +229,33 @@ class Director(arcade.Window):
         self.meteor_list.draw()
 
 
+        output = "Arrow Keys to Switch Direction -- Spacebar to Drop Bombs"
+        arcade.draw_text(output, 160, 577, arcade.color.WHITE, 14)
         output = f"Score: {self.score}"
-        arcade.draw_text(output, 25, 560, arcade.color.WHITE, 14)
+        arcade.draw_text(output, 25, 545, arcade.color.WHITE, 14)
         output = f"LEVEL {self.level}"
-        arcade.draw_text(output, 345, 560, arcade.color.WHITE, 22)
-        output = f"Stones: {self.bomb_amount}"
-        arcade.draw_text(output, 690, 560, arcade.color.WHITE, 14)
+        arcade.draw_text(output, 345, 540, arcade.color.WHITE, 22)
+        output = f"Bombs: {self.bomb_amount}"
+        arcade.draw_text(output, 690, 545, arcade.color.WHITE, 14)
+        if self.start_game == False:
+            output = "KABLAM!"
+            arcade.draw_text(output, 110, 400, arcade.color.BLUE, 100)
+            output = "Pess RETURN to Play"
+            arcade.draw_text(output, 125, 240, arcade.color.YELLOW, 40)
+            output = f"HIGHSCORE: {self.highscore}"
+            arcade.draw_text(output, 290, 75, arcade.color.WHITE, 22)
         if self.game_over == True:
-            output = "GAME OVER"
-            arcade.draw_text(output, 200, 300, arcade.color.RED, 50)
+            if self.restart_timer < 240:
+                output = "GAME OVER"
+                arcade.draw_text(output, 200, 350, arcade.color.RED, 50)
+                output = f"SCORE: {self.score}"
+                arcade.draw_text(output, 340, 150, arcade.color.WHITE, 22)
+                if self.score > self.highscore:
+                    self.highscore = self.score
+            elif self.restart_timer >= 240:
+                self.score = 0
+                self.level = 1
+                self.bomb_amount = 10
+                self.restart_timer = 0
+                self.game_over = False
+                self.start_game = False

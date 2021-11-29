@@ -1,7 +1,7 @@
 #Game window constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Kaboom!"
+SCREEN_TITLE = "Kablam!"
 
 
 #Player sprite constants
@@ -10,7 +10,7 @@ PLAYER_SPEED = 5
 
 
 #Bomb sprite constants
-BOMB_SCALING = .4
+BOMB_SCALING = .5
 BOMB_SPEED = 5
 
 
