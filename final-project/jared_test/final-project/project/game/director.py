@@ -1,5 +1,4 @@
 import arcade
-import os
 from game import constants
 
 class Director(arcade.Window):
@@ -17,154 +16,208 @@ class Director(arcade.Window):
             self (Director): an instance of Director.
         """
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
-
         self.player_list = None
-        self.stone_list = None
-        self.car_list = None
-        self.cloud_list = None
-        self.street_list = None
+        self.bomb_list = None
+        self.meteor_list = None
+        self.saucer_list = None
+        self.surface_list = None
+        self.surfArt_list = None
+        self.star_list = None
+        self.game_over = False
+
+
+        self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
+        self.drop_bomb_sound = arcade.Sound(":resources:sounds/lose4.wav")
+        self.hit_meteor_sound = arcade.Sound(":resources:sounds/hurt1.wav")
+        self.hit_saucer_sound = arcade.Sound(":resources:sounds/hit1.wav")
+        self.hit_surface_sound = arcade.Sound(":resources:sounds/hurt1.wav")
+        self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
+
 
         self.player_sprite = None
         self.score = 0
         self.level = 0
 
-        self.stone_sprite = None
-        self.stone_amount = 0
 
-        self.car_sprite = None
-        self.cloud_sprite = None
-        self.street_sprite = None
-        
+        self.bomb_sprite = None
+        self.bomb_amount = 0
+
+
+        self.meteor_sprite = None
+        self.saucer_sprite = None
+        self.surface_sprite = None
+        self.surfArt_sprite = None
+        self.star_sprite = None
+
+
     def setup(self):
-        base = constants.get_base()
-        self.background = arcade.load_texture(f"{base}/background.png")
-
+        self.background = arcade.set_background_color(arcade.csscolor.BLACK)
+        self.background_music.play()
         self.player_list = arcade.SpriteList()
-        self.stone_list = arcade.SpriteList()
-        self.car_list = arcade.SpriteList()
-        self.cloud_list = arcade.SpriteList()
-        self.street_list = arcade.SpriteList()
+        self.bomb_list = arcade.SpriteList()
+        self.meteor_list = arcade.SpriteList()
+        self.saucer_list = arcade.SpriteList()
+        self.surface_list = arcade.SpriteList()
+        self.surfArt_list = arcade.SpriteList()
+        self.star_list = arcade.SpriteList()
         self.score = 0
         self.level = 1
-        self.stone_amount = 10
+        self.bomb_amount = 10
 
-        self.player_sprite = arcade.Sprite(f"{base}/bird.png", constants.PLAYER_SCALING)
+
+        self.player_sprite = arcade.Sprite(":resources:images/space_shooter/playerShip2_orange.png", constants.PLAYER_SCALING)
+        self.player_sprite.angle = 270
         self.player_sprite.center_x = 64
-        self.player_sprite.center_y = 525
+        self.player_sprite.center_y = 500
         self.player_sprite.change_x = constants.PLAYER_SPEED
         self.player_list.append(self.player_sprite)
 
-        car_coordinate_list = [[200, 70],
-                           [700, 90]]
+        
+        meteor_coordinate_list = [[100, 310],
+                           [700, 400]]
+        for coordinate in meteor_coordinate_list:
+            self.meteor_sprite = arcade.Sprite(":resources:images/space_shooter/meteorGrey_big3.png", constants.METEOR_SCALING)
+            self.meteor_sprite.position = coordinate
+            self.meteor_sprite.change_x = constants.METEOR_SPEED
+            self.meteor_list.append(self.meteor_sprite)
 
-        for coordinate in car_coordinate_list:
-            self.car_sprite = arcade.Sprite(f"{base}/car1.png",  constants.CAR_SCALING)
-            self.car_sprite.position = coordinate
-            self.car_sprite.change_x = constants.CAR_SPEED
-            self.car_list.append(self.car_sprite)
+        
+        saucer_coordinate_list = [[200, 60],
+                           [700, 105]]
+        for coordinate in saucer_coordinate_list:
+            self.saucer_sprite = arcade.Sprite(":resources:images/tiles/switchGreen.png",  constants.SAUCER_SCALING)
+            self.saucer_sprite.position = coordinate
+            self.saucer_sprite.change_x = constants.SAUCER_SPEED
+            self.saucer_list.append(self.saucer_sprite)
 
-        cloud_coordinate_list = [[100, 400],
-                           [700, 450]]
+        #Place surface art only
+        for x in range(0, 820, 20):
+            self.surfArt_sprite = arcade.Sprite(":resources:images/tiles/sandCenter_rounded.png", constants.SURFACE_SCALING)
+            self.surfArt_sprite.center_x = x
+            self.surfArt_sprite.center_y = 20
+            self.surfArt_list.append(self.surfArt_sprite)
 
-        for coordinate in cloud_coordinate_list:
-            self.cloud_sprite = arcade.Sprite(f"{base}/cloud.png", constants.CLOUD_SCALING)
-            self.cloud_sprite.position = coordinate
-            self.cloud_sprite.change_x = constants.CLOUD_SPEED
-            self.cloud_list.append(self.cloud_sprite)
+        #Place real collidable surface
+        for x in range(0, 820, 20):
+            self.surface_sprite = arcade.Sprite(":resources:images/tiles/sandCenter_rounded.png", constants.SURFACE_SCALING)
+            self.surface_sprite.center_x = x
+            self.surface_sprite.center_y = 0
+            self.surface_list.append(self.surface_sprite)
 
-        self.street_sprite = arcade.Sprite(f"{base}/street.png", constants.STREET_SCALING)
-        self.street_sprite.center_x = 400
-        self.street_sprite.center_y = 300
-        self.street_list.append(self.street_sprite)
+
+        for x in range(25, 800, 250):
+                    for y in range(0, 600, 130):
+                        self.star_sprite = arcade.Sprite(":resources:onscreen_controls/shaded_light/unchecked.png", constants.STAR_SCALING)
+                        self.star_sprite.center_x = x
+                        self.star_sprite.center_y = y
+                        self.star_list.append(self.star_sprite)
+
 
     def on_key_press(self, key, modifiers):
-        base = constants.get_base()
-        if key == arcade.key.RIGHT:
-            self.player_sprite.change_x = constants.PLAYER_SPEED
-            self.player_sprite.angle = 0
-        elif key == arcade.key.LEFT:
-            self.player_sprite.change_x = -constants.PLAYER_SPEED
-            self.player_sprite.angle = 180
-        elif key == arcade.key.SPACE:
-            self.stone_sprite = arcade.Sprite(f"{base}/stone.png", constants.STONE_SCALING)
-            self.stone_sprite.center_x = self.player_sprite.center_x
-            self.stone_sprite.center_y = self.player_sprite.center_y
-            self.stone_sprite.change_y = -constants.STONE_SPEED
-            if len(self.stone_list) < 1:
-                self.stone_list.append(self.stone_sprite)
-                self.stone_amount -= 1
+        if self.game_over == False:
+            if key == arcade.key.RIGHT:
+                self.player_sprite.change_x = constants.PLAYER_SPEED
+                self.player_sprite.angle = 270
+            elif key == arcade.key.LEFT:
+                self.player_sprite.change_x = -constants.PLAYER_SPEED
+                self.player_sprite.angle = 90
+            elif key == arcade.key.SPACE:
+                self.bomb_sprite = arcade.Sprite(":resources:images/topdown_tanks/tankRed_barrel1_outline.png", constants.BOMB_SCALING)
+                self.bomb_sprite.center_x = self.player_sprite.center_x
+                self.bomb_sprite.center_y = self.player_sprite.center_y
+                self.bomb_sprite.change_y = -constants.BOMB_SPEED
+                if len(self.bomb_list) < 1:
+                    self.bomb_list.append(self.bomb_sprite)
+                    self.drop_bomb_sound.play()
+                    self.bomb_amount -= 1
+
 
     def on_key_release(self, key, modifiers):
-        if key == arcade.key.RIGHT:
-            self.player_sprite.change_x = constants.PLAYER_SPEED
-        elif key == arcade.key.LEFT:
-            self.player_sprite.change_x = -constants.PLAYER_SPEED
+        if self.game_over == False:
+            if key == arcade.key.RIGHT:
+                self.player_sprite.change_x = constants.PLAYER_SPEED
+            elif key == arcade.key.LEFT:
+                self.player_sprite.change_x = -constants.PLAYER_SPEED
+
 
     def on_update(self, delta_time: float = 1 / 60):
         self.player_list.update()
-        self.stone_list.update()
-        self.car_list.update()
-        self.cloud_list.update()
-        self.street_list.update()
+        self.bomb_list.update()
+        self.meteor_list.update()
+        self.saucer_list.update()
+        self.surface_list.update()
+        self.surfArt_list.update()
+        self.star_list.update()
+
 
         if self.player_sprite.center_x > constants.SCREEN_WIDTH:
             self.player_sprite.change_x = -constants.PLAYER_SPEED
-            self.player_sprite.angle = 180
+            self.player_sprite.angle = 90
         elif self.player_sprite.center_x < (constants.SCREEN_WIDTH -800):
             self.player_sprite.change_x = constants.PLAYER_SPEED
-            self.player_sprite.angle = 0
+            self.player_sprite.angle = 270
 
-        self.new_speed = (constants.STONE_SPEED + 3)
 
-        for stone in self.stone_list:
-            self.collision_list = arcade.check_for_collision_with_list(stone, self.cloud_list)
-            
-            if len(self.collision_list) > 0:
-                self.stone_sprite.center_y = self.new_speed
+        for bomb in self.bomb_list:
+            self.meteor_collision_list = arcade.check_for_collision_with_list(bomb, self.meteor_list)
+            if len(self.meteor_collision_list) > 0:
+                bomb.remove_from_sprite_lists()
+                self.hit_meteor_sound.play()
+                if self.bomb_amount == 0:
+                    self.game_over = True
+                    self.game_over_sound.play()
 
-        current_speed = (constants.CAR_SPEED + self.level)
 
-        for self.car_sprite in self.car_list:
-            if self.car_sprite.center_x > constants.SCREEN_WIDTH:
-                self.car_sprite.change_x = -current_speed
-            elif self.car_sprite.center_x < (constants.SCREEN_WIDTH -800):
-                self.car_sprite.change_x = current_speed
+            self.surface_collision_list = arcade.check_for_collision_with_list(bomb, self.surface_list)
+            if len(self.surface_collision_list) > 0:
+                bomb.remove_from_sprite_lists()
+                self.hit_surface_sound.play()
+                if self.bomb_amount == 0:
+                    self.game_over = True
+                    self.game_over_sound.play()
+        
 
-        for self.cloud_sprite in self.cloud_list:
-            if self.cloud_sprite.center_x > constants.SCREEN_WIDTH:
-                self.cloud_sprite.change_x = constants.CLOUD_SPEED
-            elif self.cloud_sprite.center_x < (constants.SCREEN_WIDTH -800):
-                self.cloud_sprite.change_x = -constants.CLOUD_SPEED
-
-        for stone in self.stone_list:
-            self.collision_list = arcade.check_for_collision_with_list(stone, self.car_list)
-            
-            if len(self.collision_list) > 0:
-                stone.remove_from_sprite_lists()
+            self.saucer_collision_list = arcade.check_for_collision_with_list(bomb, self.saucer_list)
+            if len(self.saucer_collision_list) > 0:
+                bomb.remove_from_sprite_lists()
+                self.hit_saucer_sound.play()
                 self.score += 1
                 self.level += 1
-                self.stone_amount += 2
+                self.bomb_amount += 2
 
-        for stone in self.stone_list:
-            self.collision_list = arcade.check_for_collision_with_list(stone, self.street_list)
-            
-            if len(self.collision_list) > 0:
-                stone.remove_from_sprite_lists()
+
+        for self.meteor_sprite in self.meteor_list:
+            if self.meteor_sprite.center_x > constants.SCREEN_WIDTH:
+                self.meteor_sprite.change_x = constants.METEOR_SPEED
+            elif self.meteor_sprite.center_x < (constants.SCREEN_WIDTH -800):
+                self.meteor_sprite.change_x = -constants.METEOR_SPEED
+
+
+        current_speed = (constants.SAUCER_SPEED + self.level)
+        for self.saucer_sprite in self.saucer_list:
+            if self.saucer_sprite.center_x > constants.SCREEN_WIDTH:
+                self.saucer_sprite.change_x = -current_speed
+            elif self.saucer_sprite.center_x < (constants.SCREEN_WIDTH -800):
+                self.saucer_sprite.change_x = current_speed
+
 
     def on_draw(self):
         arcade.start_render()
-        arcade.draw_lrwh_rectangle_textured(0, 0, constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, self.background)
-        self.street_list.draw()
-        self.stone_list.draw()
+        self.star_list.draw()
+        self.surface_list.draw()
+        self.surfArt_list.draw()
+        self.bomb_list.draw()
         self.player_list.draw()
-        self.car_list.draw()
-        self.cloud_list.draw()
+        self.saucer_list.draw()
+        self.meteor_list.draw()
+
+
         output = f"Score: {self.score}"
         arcade.draw_text(output, 25, 560, arcade.color.WHITE, 14)
         output = f"LEVEL {self.level}"
         arcade.draw_text(output, 345, 560, arcade.color.WHITE, 22)
-        output = f"Stones: {self.stone_amount}"
+        output = f"Stones: {self.bomb_amount}"
         arcade.draw_text(output, 690, 560, arcade.color.WHITE, 14)
-        if self.stone_amount <= 0:
+        if self.game_over == True:
             output = "GAME OVER"
             arcade.draw_text(output, 200, 300, arcade.color.RED, 50)

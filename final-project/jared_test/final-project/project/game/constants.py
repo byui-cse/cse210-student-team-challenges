@@ -1,38 +1,32 @@
-import os
-
 #Game window constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-SCREEN_TITLE = "Kerchunk!"
+SCREEN_TITLE = "Kaboom!"
 
-#Background sprite constants
-BACKGROUND_SCALING = .5
 
 #Player sprite constants
-PLAYER_SCALING = .15
+PLAYER_SCALING = .5
 PLAYER_SPEED = 5
 
-#Stone sprite constants
-STONE_SCALING = .04
-STONE_SPEED = 5
 
-#Car sprite constants
-CAR_SCALING = .10
-CAR_SPEED = 3
+#Bomb sprite constants
+BOMB_SCALING = .4
+BOMB_SPEED = 5
 
-#Cloud sprite constants
-CLOUD_SCALING = .3
-CLOUD_SPEED = -1
 
-#Street sprite constants
-STREET_SCALING = .5
+#Saucer sprite constants
+SAUCER_SCALING = .75
+SAUCER_SPEED = 3
 
-def get_base():
-    base = None
-    bases = ["cse210-student-team-challenges/final-project/jared_test/final-project/project/game/assets", "../assets", "/assets","assets","final-project/assets"]
-    for base_name in bases:
-        if os.path.exists(base_name):
-            base = base_name
-    if base is None:
-        raise Exception("Cannot find asset path. Please contact the developers.")
-    return base
+
+#Meteor sprite constants
+METEOR_SCALING = .9
+METEOR_SPEED = -1
+
+
+#Surface sprite constants
+SURFACE_SCALING = .35
+
+
+#Star sprite constants
+STAR_SCALING = .15
