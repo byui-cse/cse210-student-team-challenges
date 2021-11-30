@@ -27,6 +27,8 @@ class Director(arcade.Window):
         self.start_game = False
         self.game_over = False
         self.new_highscore = False
+        self.saucer_struck = False
+        self.saucer2_struck = False
 
 
         self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
@@ -72,6 +74,8 @@ class Director(arcade.Window):
         self.highscore = 0
         self.level = 1
         self.restart_timer = 0
+        self.struck_timer = 0
+        self.struck2_timer = 0
         self.bomb_amount = 10
 
         #Place player character
@@ -205,16 +209,17 @@ class Director(arcade.Window):
             self.saucer_collision_list = arcade.check_for_collision_with_list(bomb, self.saucer_list)
             if len(self.saucer_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
-                self.saucer_sprite.angle = 45
+                self.saucer_struck = True
                 self.hit_saucer_sound.play()
                 self.score += 1
                 self.level += 1
                 self.bomb_amount += 2
 
+
             self.saucer_collision_list = arcade.check_for_collision_with_list(bomb, self.saucer2_list)
             if len(self.saucer_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
-                self.saucer2_sprite.angle = -45
+                self.saucer2_struck = True
                 self.hit_saucer_sound.play()
                 self.score += 1
                 self.level += 1
@@ -227,14 +232,19 @@ class Director(arcade.Window):
                 self.hit_surface_sound.play()
                 if self.bomb_amount == 0:
                     self.game_over = True
+                    if self.score > self.highscore:
+                        self.new_highscore = True
+                        self.highscore = self.score
+                        self.new_highscore_sound.play()
+                    elif self.score <= self.highscore:
+                        self.new_highscore = False
+                        self.game_over_sound.play()
 
 
         for self.meteor_sprite in self.meteor_list:
             if self.meteor_sprite.center_x > constants.SCREEN_WIDTH:
-                self.saucer_sprite.angle = 0
                 self.meteor_sprite.change_x = constants.METEOR_SPEED
             elif self.meteor_sprite.center_x < (constants.SCREEN_WIDTH -800):
-                self.saucer_sprite.angle = 0
                 self.meteor_sprite.change_x = -constants.METEOR_SPEED
 
 
@@ -242,23 +252,32 @@ class Director(arcade.Window):
         for self.saucer_sprite in self.saucer_list:
             if self.saucer_sprite.center_x > constants.SCREEN_WIDTH:
                 self.saucer_sprite.change_x = -current_speed
-                self.saucer_sprite.angle = 0
+                self.current_direction = 2
             elif self.saucer_sprite.center_x < (constants.SCREEN_WIDTH -800):
                 self.saucer_sprite.change_x = current_speed
-                self.saucer_sprite.angle = 0
+                self.current_direction = 1
 
 
         current_speed = (constants.SAUCER_SPEED + self.level)
         for self.saucer2_sprite in self.saucer2_list:
             if self.saucer2_sprite.center_x > constants.SCREEN_WIDTH:
                 self.saucer2_sprite.change_x = -current_speed
-                self.saucer2_sprite.angle = 0
+                self.current_direction2 = 2
             elif self.saucer2_sprite.center_x < (constants.SCREEN_WIDTH -800):
                 self.saucer2_sprite.change_x = current_speed
-                self.saucer2_sprite.angle = 0
+                self.current_direction2 = 1
+
 
         if self.game_over == True:
             self.restart_timer +=1
+
+
+        if self.saucer_struck == True:
+            self.struck_timer += 1
+
+
+        if self.saucer2_struck == True:
+            self.struck2_timer += 1
 
 
     def on_draw(self):
@@ -304,8 +323,6 @@ class Director(arcade.Window):
                 elif self.new_highscore == False:
                     output = f"SCORE: {self.score}"
                     arcade.draw_text(output, 340, 150, arcade.color.WHITE, 22)
-
-
             elif self.restart_timer >= 240:
                 self.score = 0
                 self.level = 1
@@ -314,3 +331,27 @@ class Director(arcade.Window):
                 self.game_over = False
                 self.new_highscore = False
                 self.start_game = False
+
+
+        if self.saucer_struck == True:
+            if self.struck_timer < 30:
+                if self.current_direction == 1:
+                    self.saucer_sprite.angle = -10
+                elif self.current_direction == 2:
+                    self.saucer_sprite.angle = 10
+            elif self.struck_timer >= 30:
+                self.saucer_sprite.angle = 0
+                self.struck_timer = 0
+                self.saucer_struck = False
+
+
+        if self.saucer2_struck == True:
+            if self.struck2_timer < 30:
+                if self.current_direction2 == 1:
+                    self.saucer2_sprite.angle = -10
+                elif self.current_direction2 == 2:
+                    self.saucer2_sprite.angle = 10
+            elif self.struck2_timer >= 30:
+                self.saucer2_sprite.angle = 0
+                self.struck2_timer = 0
+                self.saucer2_struck = False
