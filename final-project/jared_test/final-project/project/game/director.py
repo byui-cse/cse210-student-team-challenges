@@ -15,7 +15,10 @@ class Director(arcade.Window):
         Args:
             self (Director): an instance of Director.
         """
+        #Get screen dimensions and title
         super().__init__(constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT, constants.SCREEN_TITLE)
+        
+        #Initialize sprite lists
         self.player_list = None
         self.bomb_list = None
         self.meteor_list = None
@@ -30,7 +33,7 @@ class Director(arcade.Window):
         self.saucer_struck = False
         self.saucer2_struck = False
 
-
+        #Music and sound effects
         self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
         self.drop_bomb_sound = arcade.Sound(":resources:sounds/lose4.wav")
         self.hit_meteor_sound = arcade.Sound(":resources:sounds/hit1.wav")
@@ -40,17 +43,13 @@ class Director(arcade.Window):
         self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
         self.new_highscore_sound = arcade.Sound(":resources:sounds/upgrade5.wav")
 
-
+        #Initialize sprites
         self.player_sprite = None
-        self.score = 0
-        self.highscore = 0
-        self.level = 0
-
-
+        self.score = None
+        self.highscore = None
+        self.level = None
         self.bomb_sprite = None
-        self.bomb_amount = 0
-
-
+        self.bomb_amount = None
         self.meteor_sprite = None
         self.saucer_sprite = None
         self.saucer2_sprite = None
@@ -60,8 +59,11 @@ class Director(arcade.Window):
 
 
     def setup(self):
+        #Setup ambiance
         self.background = arcade.set_background_color(arcade.csscolor.BLACK)
         self.background_music.play()
+
+        #Prepare lists to work with arcade
         self.player_list = arcade.SpriteList()
         self.bomb_list = arcade.SpriteList()
         self.meteor_list = arcade.SpriteList()
@@ -70,6 +72,8 @@ class Director(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.surfArt_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
+
+        #Prepare global storage variables
         self.score = 0
         self.highscore = 0
         self.level = 1
@@ -137,12 +141,13 @@ class Director(arcade.Window):
 
 
     def on_key_press(self, key, modifiers):
+        #While main screen is active
         if self.start_game == False:
             if key == arcade.key.RETURN:
                 self.start_game = True
                 self.begin_game_sound.play()
 
-
+        #While gameplay is active
         if self.start_game == True:
             if self.game_over == False:
                 if key == arcade.key.RIGHT:
@@ -163,6 +168,7 @@ class Director(arcade.Window):
 
 
     def on_key_release(self, key, modifiers):
+        #While gameplay is active
         if self.start_game == True:
             if self.game_over == False:
                 if key == arcade.key.RIGHT:
@@ -172,6 +178,7 @@ class Director(arcade.Window):
 
 
     def on_update(self, delta_time: float = 1 / 60):
+        #Check and update changes to sprite lists every frame
         self.player_list.update()
         self.bomb_list.update()
         self.meteor_list.update()
@@ -181,7 +188,7 @@ class Director(arcade.Window):
         self.surfArt_list.update()
         self.star_list.update()
 
-
+        #Player sprite changes direction based on screen-edge collisions
         if self.player_sprite.center_x > constants.SCREEN_WIDTH:
             self.player_sprite.change_x = -constants.PLAYER_SPEED
             self.player_sprite.angle = 90
@@ -189,7 +196,7 @@ class Director(arcade.Window):
             self.player_sprite.change_x = constants.PLAYER_SPEED
             self.player_sprite.angle = 270
 
-
+        #When bomb hits a meteor
         for bomb in self.bomb_list:
             self.meteor_collision_list = arcade.check_for_collision_with_list(bomb, self.meteor_list)
             if len(self.meteor_collision_list) > 0:
@@ -205,7 +212,8 @@ class Director(arcade.Window):
                         self.new_highscore = False
                         self.game_over_sound.play()
         
-
+            #When bomb hits saucers
+            #Saucer 1
             self.saucer_collision_list = arcade.check_for_collision_with_list(bomb, self.saucer_list)
             if len(self.saucer_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
@@ -215,7 +223,7 @@ class Director(arcade.Window):
                 self.level += 1
                 self.bomb_amount += 2
 
-
+            #Saucer 2
             self.saucer_collision_list = arcade.check_for_collision_with_list(bomb, self.saucer2_list)
             if len(self.saucer_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
@@ -225,7 +233,7 @@ class Director(arcade.Window):
                 self.level += 1
                 self.bomb_amount += 2
 
-
+            #When bomb hits the planet surface
             self.surface_collision_list = arcade.check_for_collision_with_list(bomb, self.surface_list)
             if len(self.surface_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
@@ -240,14 +248,15 @@ class Director(arcade.Window):
                         self.new_highscore = False
                         self.game_over_sound.play()
 
-
+        #Meteors change direction based on screen_edge collisions
         for self.meteor_sprite in self.meteor_list:
             if self.meteor_sprite.center_x > constants.SCREEN_WIDTH:
                 self.meteor_sprite.change_x = constants.METEOR_SPEED
             elif self.meteor_sprite.center_x < (constants.SCREEN_WIDTH -800):
                 self.meteor_sprite.change_x = -constants.METEOR_SPEED
 
-
+        #Saucers change direction based on screen-edge collisions
+        #Saucer 1
         current_speed = (constants.SAUCER_SPEED + self.level)
         for self.saucer_sprite in self.saucer_list:
             if self.saucer_sprite.center_x > constants.SCREEN_WIDTH:
@@ -257,7 +266,7 @@ class Director(arcade.Window):
                 self.saucer_sprite.change_x = current_speed
                 self.current_direction = 1
 
-
+        #Saucer 2
         current_speed = (constants.SAUCER_SPEED + self.level)
         for self.saucer2_sprite in self.saucer2_list:
             if self.saucer2_sprite.center_x > constants.SCREEN_WIDTH:
@@ -281,6 +290,7 @@ class Director(arcade.Window):
 
 
     def on_draw(self):
+        #Draw sprite list changes every frame
         arcade.start_render()
         self.star_list.draw()
         self.surface_list.draw()
@@ -291,7 +301,7 @@ class Director(arcade.Window):
         self.saucer_list.draw()
         self.meteor_list.draw()
 
-
+        #Draw information sprites near the top of the screen
         output = "Arrow Keys to Switch Direction -- Spacebar to Drop Bombs"
         arcade.draw_text(output, 160, 577, arcade.color.WHITE, 14)
 
@@ -303,7 +313,7 @@ class Director(arcade.Window):
         output = f"Bombs: {self.bomb_amount}"
         arcade.draw_text(output, 690, 545, arcade.color.WHITE, 14)
 
-
+        #Start screen
         if self.start_game == False:
             output = "KABLAM!"
             arcade.draw_text(output, 110, 400, arcade.color.BLUE, 100)
@@ -312,7 +322,7 @@ class Director(arcade.Window):
             output = f"HIGHSCORE: {self.highscore}"
             arcade.draw_text(output, 290, 75, arcade.color.WHITE, 22)
 
-
+        #Show score or highscore when applicable
         if self.game_over == True:
             if self.restart_timer < 240:
                 output = "GAME OVER"
@@ -332,7 +342,8 @@ class Director(arcade.Window):
                 self.new_highscore = False
                 self.start_game = False
 
-
+        #Draw saucer struck animations based on direction
+        #Saucer 1
         if self.saucer_struck == True:
             if self.struck_timer < 30:
                 if self.current_direction == 1:
@@ -344,7 +355,7 @@ class Director(arcade.Window):
                 self.struck_timer = 0
                 self.saucer_struck = False
 
-
+        #Saucer 2
         if self.saucer2_struck == True:
             if self.struck2_timer < 30:
                 if self.current_direction2 == 1:
