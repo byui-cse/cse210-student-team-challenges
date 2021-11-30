@@ -345,24 +345,34 @@ class Director(arcade.Window):
         #Draw saucer struck animations based on direction
         #Saucer 1
         if self.saucer_struck == True:
-            if self.struck_timer < 30:
+            if self.struck_timer < 10:
                 if self.current_direction == 1:
                     self.saucer_sprite.angle = -10
                 elif self.current_direction == 2:
                     self.saucer_sprite.angle = 10
-            elif self.struck_timer >= 30:
+            elif self.struck_timer >= 10 and self.struck_timer < 20:
+                if self.current_direction == 1:
+                    self.saucer_sprite.angle = 10
+                elif self.current_direction == 2:
+                    self.saucer_sprite.angle = -10
+            elif self.struck_timer >= 20:
                 self.saucer_sprite.angle = 0
                 self.struck_timer = 0
                 self.saucer_struck = False
 
         #Saucer 2
         if self.saucer2_struck == True:
-            if self.struck2_timer < 30:
+            if self.struck2_timer < 10:
                 if self.current_direction2 == 1:
                     self.saucer2_sprite.angle = -10
                 elif self.current_direction2 == 2:
                     self.saucer2_sprite.angle = 10
-            elif self.struck2_timer >= 30:
+            elif self.struck2_timer >= 10 and self.struck2_timer < 20:
+                if self.current_direction2 == 1:
+                    self.saucer2_sprite.angle = 10
+                elif self.current_direction2 == 2:
+                    self.saucer2_sprite.angle = -10
+            elif self.struck2_timer >= 20:
                 self.saucer2_sprite.angle = 0
                 self.struck2_timer = 0
                 self.saucer2_struck = False
