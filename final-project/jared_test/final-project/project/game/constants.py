@@ -5,12 +5,12 @@ SCREEN_TITLE = "Kablam!"
 
 
 #Player sprite constants
-PLAYER_SCALING = .5
+PLAYER_SCALING = .6
 PLAYER_SPEED = 5
 
 
 #Bomb sprite constants
-BOMB_SCALING = .5
+BOMB_SCALING = .6
 BOMB_SPEED = 5
 
 
@@ -20,7 +20,7 @@ SAUCER_SPEED = 3
 
 
 #Meteor sprite constants
-METEOR_SCALING = .9
+METEOR_SCALING = 1
 METEOR_SPEED = -1
 
 
