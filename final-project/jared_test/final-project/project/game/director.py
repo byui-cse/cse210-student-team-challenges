@@ -257,23 +257,23 @@ class Director(arcade.Window):
 
         #Saucers change direction based on screen-edge collisions
         #Saucer 1
-        current_speed = (constants.SAUCER_SPEED + self.level)
+        self.current_speed = (constants.SAUCER_SPEED + self.level)
         for self.saucer_sprite in self.saucer_list:
             if self.saucer_sprite.center_x > constants.SCREEN_WIDTH:
-                self.saucer_sprite.change_x = -current_speed
+                self.saucer_sprite.change_x = -self.current_speed
                 self.current_direction = 2
             elif self.saucer_sprite.center_x < (constants.SCREEN_WIDTH -800):
-                self.saucer_sprite.change_x = current_speed
+                self.saucer_sprite.change_x = self.current_speed
                 self.current_direction = 1
 
         #Saucer 2
-        current_speed = (constants.SAUCER_SPEED + self.level)
+        self.current_speed = (constants.SAUCER_SPEED + self.level)
         for self.saucer2_sprite in self.saucer2_list:
             if self.saucer2_sprite.center_x > constants.SCREEN_WIDTH:
-                self.saucer2_sprite.change_x = -current_speed
+                self.saucer2_sprite.change_x = -self.current_speed
                 self.current_direction2 = 2
             elif self.saucer2_sprite.center_x < (constants.SCREEN_WIDTH -800):
-                self.saucer2_sprite.change_x = current_speed
+                self.saucer2_sprite.change_x = self.current_speed
                 self.current_direction2 = 1
 
 
