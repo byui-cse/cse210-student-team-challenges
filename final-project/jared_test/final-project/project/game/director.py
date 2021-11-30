@@ -75,7 +75,7 @@ class Director(arcade.Window):
 
         #Prepare global storage variables
         self.score = 0
-        self.highscore = 0
+        self.highscore = 120
         self.level = 1
         self.restart_timer = 0
         self.struck_timer = 0
@@ -219,7 +219,7 @@ class Director(arcade.Window):
                 bomb.remove_from_sprite_lists()
                 self.saucer_struck = True
                 self.hit_saucer_sound.play()
-                self.score += 1
+                self.score += 10
                 self.level += 1
                 self.bomb_amount += 2
 
@@ -229,7 +229,7 @@ class Director(arcade.Window):
                 bomb.remove_from_sprite_lists()
                 self.saucer2_struck = True
                 self.hit_saucer_sound.play()
-                self.score += 1
+                self.score += 10
                 self.level += 1
                 self.bomb_amount += 2
 
