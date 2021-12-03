@@ -1,23 +1,31 @@
-import os
+#Game window constants
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+SCREEN_TITLE = "Kablam!"
 
-MAX_X = 80
-MAX_Y = 20
-FRAME_LENGTH = 0.001
-PATH = os.path.dirname(os.path.abspath(__file__))
-SCREEN_WIDTH=800
-SCREEN_HEIGHT=600
-SCREEN_TITLE="Kerchunk!"
-BIRD_SPEED = 3
-STONE_SPEED = 3
-CAR_SPEED = 3
-G = 2
 
-def get_base():
-    base = None
-    bases = ["cse210-student-team-challenges/final-project/assets", "../assets", "/assets","assets","final-project/assets"]
-    for base_name in bases:
-        if os.path.exists(base_name):
-            base = base_name
-    if base is None:
-        raise Exception("Cannot find asset path. Please contact the developers.")
-    return base
+#Ship sprite constants
+SHIP_SCALING = .6
+SHIP_SPEED = 5
+
+
+#Bomb sprite constants
+BOMB_SCALING = .6
+BOMB_SPEED = -5
+
+
+#Saucer sprite constants
+SAUCER_SCALING = .75
+
+
+#Meteor sprite constants
+METEOR_SCALING = 1.5
+METEOR_SPEED = -2
+
+
+#Surface sprite constants
+SURFACE_SCALING = .35
+
+
+#Star sprite constants
+STAR_SCALING = .15

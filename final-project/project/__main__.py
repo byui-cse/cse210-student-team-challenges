@@ -1,9 +1,9 @@
-from game import constants
-from game import director
+from game import kablam
 import arcade 
 
 def main():
-    mygame = director.Director()
+    window = kablam.KablamGame()
+    window.setup()
     arcade.run()
 
 if __name__ == "__main__":
