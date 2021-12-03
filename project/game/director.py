@@ -9,6 +9,7 @@ from game import K
 
 import arcade
 import random
+from datetime import datetime, timedelta
 
 class Screen(arcade.Window):
     #The inheritance of the window class automatically starts the screen
@@ -28,6 +29,8 @@ class Screen(arcade.Window):
         self.scene = None
 
         self.sounds.play_music()
+
+        self.time = datetime.now()
     def setup(self):
         # Initialize Scene
         self.scene = arcade.Scene()
@@ -126,18 +129,29 @@ class Screen(arcade.Window):
         # Allow the platforms to keeep moving      
         self.platforms.center_x -= K.PLATFORM_SPEED
 
+        
+        #self.time is constant... time is changing constantly
+        time = datetime.now()
+        changetime = self.time + timedelta(seconds= 1)
+        
+        #print(f"{changetime}  {time}")
+        if time >= changetime:
+            self.time = time 
+            #Time counter finished   
+                 
         #Enemy moving
-    
-        UP = True
         for a in self.enemies_list:
-            if a.top < K.SCREEN_HEIGHT and UP == True:
+            #print(K.UP)
+            if a.top < K.SCREEN_HEIGHT and K.UP == True:
                 a.center_y += 5
             if a.top > K.SCREEN_HEIGHT:
-                UP = False
-            if UP == False:
+                K.UP = False
+            if K.UP == False:
                 a.center_y -= 5
             if a.bottom < 20:
-                UP = True
+                K.UP = True
+
+
 
         #collitions
         colliding = arcade.check_for_collision_with_list(self.player, self.enemies_list)
