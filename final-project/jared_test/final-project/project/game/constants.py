@@ -4,24 +4,23 @@ SCREEN_HEIGHT = 600
 SCREEN_TITLE = "Kablam!"
 
 
-#Player sprite constants
-PLAYER_SCALING = .6
-PLAYER_SPEED = 5
+#Ship sprite constants
+SHIP_SCALING = .6
+SHIP_SPEED = 5
 
 
 #Bomb sprite constants
 BOMB_SCALING = .6
-BOMB_SPEED = 5
+BOMB_SPEED = -5
 
 
 #Saucer sprite constants
 SAUCER_SCALING = .75
-SAUCER_SPEED = 3
 
 
 #Meteor sprite constants
-METEOR_SCALING = 1
-METEOR_SPEED = -1
+METEOR_SCALING = 1.5
+METEOR_SPEED = -2
 
 
 #Surface sprite constants
