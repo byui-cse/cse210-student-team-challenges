@@ -7,18 +7,26 @@ class Sounds:
 
     def __init__(self):
 
-        self.jump_sound_file = ':resources:sounds/jump2.wav'
-        self.jump_sound = arcade.Sound(self.jump_sound_file)
+       # self.jump_sound_file = ':resources:sounds/jump2.wav'
+        self.jump_sound = arcade.Sound(':resources:sounds/jump2.wav')
+        self.collision_sound = arcade.Sound(':resources:sounds/hit3.wav')
 
         
         self.music_file = "project\game\sounds\music.mp3"
         self.music = arcade.Sound(self.music_file)
 
-    def load_sound(self):
-        arcade.load_sound(self.jump_sound_file)
-
+    
+    def load_sound(self, sound_file):
+        arcade.load_sound(sound_file)
+    
     def play_jump_sound(self):
         self.jump_sound.play(K.JUMP_VOLUME, 0, False)
+
+    def play_collision_sound(self):
+        self.collision_sound.play(K.JUMP_VOLUME, 0, False)
+        
+    
+        
     
 
     def stop_sound(self):

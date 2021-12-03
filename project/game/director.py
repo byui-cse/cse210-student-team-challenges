@@ -1,3 +1,4 @@
+from arcade.application import Window
 from game.player import Player
 from game.background import Background
 from game.sounds import Sounds
@@ -96,6 +97,7 @@ class Screen(arcade.Window):
             if self.physics_engine.can_jump():
                 self.player.change_y = K.PLAYER_JUMP_SPEED
             self.player.change_y = K.PLAYER_JUMP_SPEED
+            self.sounds.load_sound(':resources:sounds/jump2.wav')
             self.sounds.play_jump_sound()
         elif key == arcade.key.DOWN:
             self.player.change_y = -K.MOVEMENT_SPEED
@@ -105,6 +107,7 @@ class Screen(arcade.Window):
 
         elif key == arcade.key.RIGHT:
             self.player.change_x = K.MOVEMENT_SPEED
+            
 
     def on_key_release(self, key, modifiers):
         """Called when the user releases a key. """
@@ -139,4 +142,6 @@ class Screen(arcade.Window):
         #collitions
         colliding = arcade.check_for_collision_with_list(self.player, self.enemies_list)
         if colliding:
-            exit()    
+            self.sounds.load_sound(':resources:sounds/hit3.wav')
+            self.sounds.play_collision_sound()
+            # exit() 
