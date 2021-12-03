@@ -31,8 +31,8 @@ class KablamGame(arcade.Window):
         self.new_highscore = False
         self.saucer_struck = False
 
-        #Initialize music and sound effects
-        self.background_music = None
+        #Music and sound effects
+        self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
         self.meteor_hit_sound = arcade.Sound(":resources:sounds/hit1.wav")
         self.saucer_hit_sound = arcade.Sound(":resources:sounds/explosion2.wav")
         self.surface_hit_sound = arcade.Sound(":resources:sounds/hurt1.wav")
@@ -49,7 +49,6 @@ class KablamGame(arcade.Window):
     def setup(self):
         #Setup ambiance
         self.background = arcade.set_background_color(arcade.csscolor.BLACK)
-        self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
         self.background_music.play()
 
         #Prepare lists to work with arcade
@@ -252,7 +251,7 @@ class KablamGame(arcade.Window):
             output = f"HIGHSCORE: {self.highscore}"
             arcade.draw_text(output, 290, 75, arcade.color.WHITE, 22)
 
-        #Show score or highscore when applicable
+        #Show score or new highscore when applicable
         if self.game_over == True:
             if self.restart_timer < 240:
                 output = "GAME OVER"
@@ -267,6 +266,7 @@ class KablamGame(arcade.Window):
                 self.score = 0
                 self.bomb_amount = 10
                 self.restart_timer = 0
+                self.saucer.sprite.change_x = 3
                 self.game_over = False
                 self.new_highscore = False
                 self.start_game = False
