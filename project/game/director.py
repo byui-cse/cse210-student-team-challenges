@@ -22,6 +22,7 @@ class Screen(arcade.Window):
         self.sprite_list = arcade.SpriteList()
         self.background_list = arcade.SpriteList()
         self.enemies_list = arcade.SpriteList()
+        self.rewards_list = arcade.SpriteList()
         self.sounds = Sounds()
         self.enemies = Enemies()
 
@@ -35,18 +36,26 @@ class Screen(arcade.Window):
         # Initialize Scene
         self.scene = arcade.Scene()
 
-        # Populate the ground with spikes
+        # Make the floor
         for x in range(0, 1250, 37):
-            wall1 = arcade.Sprite("project\game\images\metalblock.png", 0.2) # Last parameter is for resizing (optional)
+            wall1 = arcade.Sprite("project\game\images\metalblock.png", K.BLOCK_SIZE) # Last parameter is for resizing (optional)
             wall1.center_x = x
             wall1.center_y = 15
 
             self.scene.add_sprite("Walls", wall1)
+        #Make walls
         for y in range(0,7):
-            block = arcade.Sprite("project/game/images/rockblock.jpg",0.2)
+            block = arcade.Sprite("project/game/images/rockblock.jpg",K.BLOCK_SIZE)
             block.center_x = random.randint(50, 990)
             block.center_y = random.randint(15, 490)
             self.scene.add_sprite("Walls", block)
+
+        #Rewards
+        for y in range(0,5):
+            gear = arcade.Sprite("project/game/images/gear.png",K.REWARD_SIZE)
+            gear.center_x = random.randint(50, 990)
+            gear.center_y = random.randint(15, 490)
+            self.rewards_list.append(gear)
             
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
@@ -61,7 +70,7 @@ class Screen(arcade.Window):
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
         self.player = Player(":resources:images/animated_characters/robot/robot_walk0.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
-        self.player.center_x = 64
+        self.player.center_x = 0
         self.player.center_y = 128
         self.sprite_list.append(self.player)
 
@@ -91,7 +100,9 @@ class Screen(arcade.Window):
         self.platforms.draw()
         self.sprite_list.draw()
         self.scene.draw()
+        self.rewards_list.draw()
         self.enemies_list.draw()
+
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -156,6 +167,16 @@ class Screen(arcade.Window):
         #collitions
         colliding = arcade.check_for_collision_with_list(self.player, self.enemies_list)
         if colliding:
+            self.player.center_x = 0
+            self.player.center_y = 0
             self.sounds.load_sound(':resources:sounds/hit3.wav')
             self.sounds.play_collision_sound()
             # exit() 
+        
+        #rewards
+        for b in self.rewards_list:
+            get_reward = arcade.check_for_collision(self.player, b)
+            if get_reward:
+                self.sounds.play_reward_sound()
+            
+                self.rewards_list.remove(b)

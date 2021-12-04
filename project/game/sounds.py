@@ -10,7 +10,7 @@ class Sounds:
        # self.jump_sound_file = ':resources:sounds/jump2.wav'
         self.jump_sound = arcade.Sound(':resources:sounds/jump2.wav')
         self.collision_sound = arcade.Sound(':resources:sounds/hit3.wav')
-
+        self.reward_sound = arcade.Sound(":resources:sounds/upgrade2.wav")
         
         self.music_file = "project\game\sounds\music.mp3"
         self.music = arcade.Sound(self.music_file)
@@ -31,6 +31,9 @@ class Sounds:
 
     def stop_sound(self):
         arcade.stop_sound()
+    
+    def play_reward_sound(self):
+        self.reward_sound.play(K.REWARD_VOLUME, 0, False)
 
     def play_music(self):
         self.music.play(K.MUSIC_VOLUME, 0, True)
