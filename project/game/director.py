@@ -31,6 +31,7 @@ class Screen(arcade.Window):
 
         self.sounds.play_music()
 
+        self.lifes = 2
         self.time = datetime.now()
     def setup(self):
         # Initialize Scene
@@ -103,6 +104,10 @@ class Screen(arcade.Window):
         self.rewards_list.draw()
         self.enemies_list.draw()
 
+        #Lifes marker
+        lifetext = f"Lifes: {self.lifes}"
+        arcade.draw_text(lifetext, 45, 470, arcade.color.WHITE, 15, anchor_x='center')
+
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -164,19 +169,22 @@ class Screen(arcade.Window):
 
 
 
-        #collitions
+        #COLLITIONS-----
+        #Enemy collition
         colliding = arcade.check_for_collision_with_list(self.player, self.enemies_list)
         if colliding:
             self.player.center_x = 0
             self.player.center_y = 0
             self.sounds.load_sound(':resources:sounds/hit3.wav')
             self.sounds.play_collision_sound()
+            self.lifes -=1
+            if self.lifes == 0:
+                exit()
             # exit() 
         
-        #rewards
+        #Rewards
         for b in self.rewards_list:
             get_reward = arcade.check_for_collision(self.player, b)
             if get_reward:
                 self.sounds.play_reward_sound()
-            
                 self.rewards_list.remove(b)
