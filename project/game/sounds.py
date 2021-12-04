@@ -13,7 +13,7 @@ class Sounds:
         self.reward_sound = arcade.Sound(":resources:sounds/upgrade2.wav")
         self.new_level_sound = arcade.Sound(":resources:sounds/upgrade5.wav")
 
-        self.music_file = "project\game\sounds\music.mp3"
+        self.music_file = "project/game/sounds/music.mp3"
         self.music = arcade.Sound(self.music_file)
 
         self.music2_file = "project/game/sounds/final_boss.mp3"
