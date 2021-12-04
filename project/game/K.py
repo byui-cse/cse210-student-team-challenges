@@ -41,7 +41,7 @@ REWARD_SIZE = 0.15
 
 #BOSS
 BOSS_SIZE = 1
-BOSS_LEVEL = 2
+BOSS_LEVEL = 5
 
 # Custom Colours
 GREY = (106, 106, 86)
