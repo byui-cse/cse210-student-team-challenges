@@ -41,6 +41,9 @@ class Screen(arcade.Window):
         self.time2 = datetime.now()
 
         self.bosstext = ""
+        self.boss_active = False #To use on the future
+                                    # Check if you defeated the boss
+
     def setup(self):
         # Initialize Scene
         self.scene = arcade.Scene()
@@ -138,7 +141,7 @@ class Screen(arcade.Window):
 
         
         bosstext = f"{self.bosstext}"
-        arcade.draw_text(bosstext, 700, 470, arcade.color.WHITE, 15, anchor_x='center')
+        arcade.draw_text(bosstext, 700, 470, arcade.color.YELLOW, 15, anchor_x='center')
         
 
     def on_key_press(self, key, modifiers):
@@ -240,9 +243,10 @@ class Screen(arcade.Window):
         #CHANGE LEVEL INTERFACE        
         if len(self.rewards_list) == 0: 
             self.change_level()
-            if self.level == 5: #I plan to put the boss level at level 5
+            if self.level == K.BOSS_LEVEL: #I plan to put the boss level at level 5
                 self.boss_level()
-
+                
+            
     def boss_level(self):
         self.boss_life = 100
         self.sounds.stop_sound(self.music)
@@ -252,7 +256,7 @@ class Screen(arcade.Window):
         self.bosstext = f"Boss life: {self.boss_life}"
 
         
-        self.boss = Boss("project/game/images/boss.png", 1)
+        self.boss = Boss("project/game/images/boss.png", K.BOSS_SIZE)
         self.boss.center_x = 800
         self.boss.center_y = 250
         self.boss_list.append(self.boss)
