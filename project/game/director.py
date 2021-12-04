@@ -35,7 +35,10 @@ class Screen(arcade.Window):
 
         self.lifes = 4
         self.level = 1
+
+        #Static timers
         self.time = datetime.now()
+        self.time2 = datetime.now()
 
         self.bosstext = ""
     def setup(self):
@@ -48,13 +51,8 @@ class Screen(arcade.Window):
             wall1.center_x = x
             wall1.center_y = 15
 
-            self.scene.add_sprite("Walls", wall1)
-        #Make walls
-        for y in range(0,7):
-            block = arcade.Sprite("project/game/images/rockblock.jpg",K.BLOCK_SIZE)
-            block.center_x = random.randint(50, 990)
-            block.center_y = random.randint(15, 490)
-            self.scene.add_sprite("Walls", block)
+            self.scene.add_sprite("Floor", wall1)
+
 
         #Rewards
 
@@ -62,9 +60,19 @@ class Screen(arcade.Window):
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
-        # self.scene.add_sprite("Walls", self.platforms)   
+        # self.scene.add_sprite("Walls", self.platforms) 
+        self.place_blocks()  
         self.place_enemy()
         self.place_rewards()
+        
+    def place_blocks(self):
+        #Make walls
+        for y in range(0,7):
+            block = arcade.Sprite("project/game/images/rockblock.jpg",K.BLOCK_SIZE)
+            block.center_x = random.randint(50, 990)
+            block.center_y = random.randint(15, 490)
+            self.scene.add_sprite("Walls", block)
+            
 
     def place_enemy(self):
         self.enemy = Enemies("project/game/images/spikeball.png", K.ENEMY_SCALING)
@@ -169,7 +177,16 @@ class Screen(arcade.Window):
         # Allow the platforms to keeep moving      
         self.platforms.center_x -= K.PLATFORM_SPEED
 
-        
+        time2 = datetime.now()
+        changetime2 = self.time2 + timedelta(seconds= K.SECONDS_TO_CHANGE)
+        if time2 >= changetime2:
+            self.time2 = time2
+            self.scene.remove_sprite_list_by_name("Walls")
+            self.place_blocks()
+            self.physics_engine = arcade.PhysicsEnginePlatformer(
+            self.player, gravity_constant=K.GRAVITY, walls=self.scene["Walls"]
+        )
+
         #self.time is constant... time is changing constantly
         time = datetime.now()
         changetime = self.time + timedelta(seconds= K.SECONDS_TO_SPAWN)
@@ -179,7 +196,8 @@ class Screen(arcade.Window):
             self.place_enemy()
 
             #Time counter finished   
-        
+
+        #Blocks moving
         #Enemy moving
         for a in self.enemies_list:
             a.center_x -= K.ENEMY_SPEED

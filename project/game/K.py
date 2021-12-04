@@ -32,6 +32,7 @@ NEW_LEVEL_MUSIC_VOLUME = 0.15
 #Platforms constants
 PLATFORM_SPEED = 1
 BLOCK_SIZE = 0.2
+SECONDS_TO_CHANGE = 4
 
 #Rewards constants
 NUMBER_OF_REWARDS = 5
@@ -40,5 +41,7 @@ REWARD_SIZE = 0.15
 
 #BOSS
 BOSS_SIZE: 1
+BOSS_LEVEL: 5
+
 # Custom Colours
 GREY = (106, 106, 86)
