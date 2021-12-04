@@ -16,6 +16,8 @@ class Sounds:
         self.music_file = "project\game\sounds\music.mp3"
         self.music = arcade.Sound(self.music_file)
 
+        self.music2_file = "project/game/sounds/final_boss.mp3"
+        self.music2 = arcade.Sound(self.music2_file)
     
     def load_sound(self, sound_file):
         arcade.load_sound(sound_file)
@@ -26,12 +28,12 @@ class Sounds:
     def play_collision_sound(self):
         self.collision_sound.play(K.JUMP_VOLUME, 0, False)
         
-    
         
     
 
-    def stop_sound(self):
-        arcade.stop_sound()
+    def stop_sound(self,stop):
+        self.music.stop(stop)
+        
     
     def play_reward_sound(self):
         self.reward_sound.play(K.REWARD_VOLUME, 0, False)
@@ -40,4 +42,7 @@ class Sounds:
         self.new_level_sound.play(K.NEW_LEVEL_VOLUME, 0, False)
 
     def play_music(self):
-        self.music.play(K.MUSIC_VOLUME, 0, True)
+        return self.music.play(K.MUSIC_VOLUME, 0, True)
+
+    def play_nlevel_music(self):
+        return self.music2.play(K.MUSIC_VOLUME, 0, True)

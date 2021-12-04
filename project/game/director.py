@@ -29,7 +29,7 @@ class Screen(arcade.Window):
         self.physics_engine = None
         self.scene = None
 
-        self.sounds.play_music()
+        self.music = self.sounds.play_music()
 
         self.lifes = 4
         self.level = 1
@@ -173,7 +173,7 @@ class Screen(arcade.Window):
         
         #Enemy moving
         for a in self.enemies_list:
-            a.center_x -= 1
+            a.center_x -= K.ENEMY_SPEED
             #print(a.UP)
             #UP AND DOWN MOVEMENT
             if a.top < K.SCREEN_HEIGHT and a.UP == True:
@@ -210,9 +210,16 @@ class Screen(arcade.Window):
                 self.points += 1
                 self.sounds.play_reward_sound()
                 self.rewards_list.remove(b)
-        if len(self.rewards_list) == 0:
-            self.sounds.play_newlevel_sound()
-            K.NUMBER_OF_REWARDS += 1
-            self.level += 1
-            self.place_rewards()  
-            
+        if len(self.rewards_list) == 0: 
+            self.change_level()
+            if self.level == 5:
+                self.sounds.stop_sound(self.music)
+                self.music2 = self.sounds.play_nlevel_music()
+
+    def change_level(self):
+        self.sounds.play_newlevel_sound()
+        K.NUMBER_OF_REWARDS += 1
+        K.ENEMY_SPEED += 0.5
+        K.SECONDS_TO_SPAWN -= 1
+        self.level += 1
+        self.place_rewards()  
