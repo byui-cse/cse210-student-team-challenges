@@ -19,7 +19,7 @@ SAUCER_SCALING = .75
 
 
 #Meteor sprite constants
-METEOR_SCALING = 1.5
+METEOR_SCALING = 1.15
 METEOR_SPEED = -2
 
 

@@ -5,7 +5,7 @@ class Meteor(arcade.Sprite):
     """A code template for the meteor sprite. The responsibility of 
     this class of objects is to setup the meteor sprite.
     """
-    def __init__(self):
+    def __init__(self, x_value,y_value, x_speed):
         """The class constructor.
         
         Args:
@@ -14,10 +14,10 @@ class Meteor(arcade.Sprite):
         #Set sprite and scale
         self.sprite = arcade.Sprite(":resources:images/space_shooter/meteorGrey_big3.png", constants.METEOR_SCALING)
 
-        #Position, direction, speed
-        self.sprite.center_x = 350
-        self.sprite.center_y = 350
-        self.sprite.change_x = constants.METEOR_SPEED
+        #Initialize Position, direction, speed
+        self.sprite.center_x = x_value
+        self.sprite.center_y = y_value
+        self.sprite.change_x = x_speed
 
     #Wraps around edge of screen
     def wraps_screen(self):

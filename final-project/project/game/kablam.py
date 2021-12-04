@@ -59,7 +59,7 @@ class KablamGame(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
 
-        #Prepare global storage variables
+        #Prepare storage variables
         self.score = 0
         self.highscore = 80
         self.restart_timer = 0
@@ -68,15 +68,19 @@ class KablamGame(arcade.Window):
         self.bomb_amount = 10
 
         #Place ship
-        self.ship = Ship()
+        self.ship = Ship(64, 490, 270, constants.SHIP_SPEED)
         self.ship_list.append(self.ship.sprite)
 
-        #Place meteor
-        self.meteor = Meteor()
-        self.meteor_list.append(self.meteor.sprite)
+        #Place meteors
+        #Meteor 1
+        self.meteor1 = Meteor(100, 310, constants.METEOR_SPEED)
+        self.meteor_list.append(self.meteor1.sprite)
+        #Meteor2
+        self.meteor2 = Meteor(600, 400, constants.METEOR_SPEED)
+        self.meteor_list.append(self.meteor2.sprite)
 
         #Place saucer
-        self.saucer = Saucer()
+        self.saucer = Saucer(799, 100, 0, 3)
         self.saucer_list.append(self.saucer.sprite)
 
         #Place surface
@@ -145,9 +149,10 @@ class KablamGame(arcade.Window):
         self.ship.wraps_screen()
 
         #Meteors wrap screen
-        self.meteor.wraps_screen()
+        self.meteor1.wraps_screen()
+        self.meteor2.wraps_screen()
 
-        #Saucers wrap screen
+        #Saucer wraps screen
         self.saucer.wraps_screen()
 
         #When bomb hits the meteor
@@ -262,6 +267,7 @@ class KablamGame(arcade.Window):
                 elif self.new_highscore == False:
                     output = f"SCORE: {self.score}"
                     arcade.draw_text(output, 340, 150, arcade.color.WHITE, 22)
+            #Reset back to beginning defaults
             elif self.restart_timer >= 240:
                 self.score = 0
                 self.bomb_amount = 10
