@@ -4,6 +4,7 @@ from game.background import Background
 from game.sounds import Sounds
 from game.platforms import Platforms
 from game.enemies import Enemies
+from game.boss import Boss
 from game import K
 
 
@@ -25,6 +26,7 @@ class Screen(arcade.Window):
         self.rewards_list = arcade.SpriteList()
         self.sounds = Sounds()
         self.enemies = Enemies()
+        self.boss_list = arcade.SpriteList()
 
         self.physics_engine = None
         self.scene = None
@@ -34,6 +36,8 @@ class Screen(arcade.Window):
         self.lifes = 4
         self.level = 1
         self.time = datetime.now()
+
+        self.bosstext = ""
     def setup(self):
         # Initialize Scene
         self.scene = arcade.Scene()
@@ -111,6 +115,7 @@ class Screen(arcade.Window):
         self.scene.draw()
         self.rewards_list.draw()
         self.enemies_list.draw()
+        self.boss_list.draw()
 
         #Lifes marker
         lifetext = f"Lifes: {self.lifes}"
@@ -120,9 +125,13 @@ class Screen(arcade.Window):
         rewardstext = f"Gears got: {self.points}/{K.NUMBER_OF_REWARDS}"
         arcade.draw_text(rewardstext, 300, 470, arcade.color.WHITE, 15, anchor_x='center')
 
-        rewardstext = f"Level: {self.level}"
-        arcade.draw_text(rewardstext, 500, 470, arcade.color.WHITE, 15, anchor_x='center')
+        leveltext = f"Level: {self.level}"
+        arcade.draw_text(leveltext, 500, 470, arcade.color.WHITE, 15, anchor_x='center')
 
+        
+        bosstext = f"{self.bosstext}"
+        arcade.draw_text(bosstext, 700, 470, arcade.color.WHITE, 15, anchor_x='center')
+        
 
     def on_key_press(self, key, modifiers):
         """Called whenever a key is pressed. """
@@ -210,11 +219,27 @@ class Screen(arcade.Window):
                 self.points += 1
                 self.sounds.play_reward_sound()
                 self.rewards_list.remove(b)
+        #CHANGE LEVEL INTERFACE        
         if len(self.rewards_list) == 0: 
             self.change_level()
-            if self.level == 5:
-                self.sounds.stop_sound(self.music)
-                self.music2 = self.sounds.play_nlevel_music()
+            if self.level == 5: #I plan to put the boss level at level 5
+                self.boss_level()
+
+    def boss_level(self):
+        self.boss_life = 100
+        self.sounds.stop_sound(self.music)
+        self.music = self.sounds.play_nlevel_music()
+        K.SECONDS_TO_SPAWN = 10
+
+        self.bosstext = f"Boss life: {self.boss_life}"
+
+        
+        self.boss = Boss("project/game/images/boss.png", 1)
+        self.boss.center_x = 800
+        self.boss.center_y = 250
+        self.boss_list.append(self.boss)
+
+
 
     def change_level(self):
         self.sounds.play_newlevel_sound()

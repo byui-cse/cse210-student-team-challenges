@@ -45,4 +45,4 @@ class Sounds:
         return self.music.play(K.MUSIC_VOLUME, 0, True)
 
     def play_nlevel_music(self):
-        return self.music2.play(K.MUSIC_VOLUME, 0, True)
+        return self.music2.play(K.NEW_LEVEL_MUSIC_VOLUME, 0, True)
