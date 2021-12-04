@@ -32,6 +32,7 @@ class Screen(arcade.Window):
         self.sounds.play_music()
 
         self.lifes = 2
+        self.points = 0
         self.time = datetime.now()
     def setup(self):
         # Initialize Scene
@@ -52,7 +53,7 @@ class Screen(arcade.Window):
             self.scene.add_sprite("Walls", block)
 
         #Rewards
-        for y in range(0,5):
+        for y in range(0,K.NUMBER_OF_REWARDS):
             gear = arcade.Sprite("project/game/images/gear.png",K.REWARD_SIZE)
             gear.center_x = random.randint(50, 990)
             gear.center_y = random.randint(15, 490)
@@ -62,12 +63,14 @@ class Screen(arcade.Window):
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
         # self.scene.add_sprite("Walls", self.platforms)   
-        for z in range(0,3):
-            self.enemy = Enemies("project/game/images/spikeball.png", K.ENEMY_SCALING)
-            self.enemy.center_x = random.randint(90, 990)
-            self.enemy.center_y = random.randint(60, 70)
-            self.enemies_list.append(self.enemy)
-             
+        self.place_enemy()
+
+    def place_enemy(self):
+        self.enemy = Enemies("project/game/images/spikeball.png", K.ENEMY_SCALING)
+        self.enemy.center_x = K.SCREEN_WIDTH-1
+        self.enemy.center_y = random.randint(60, 70)
+        self.enemies_list.append(self.enemy)
+
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
         self.player = Player(":resources:images/animated_characters/robot/robot_walk0.png", K.SPRITE_SCALING) #THE PLAYER OBJECT
@@ -107,6 +110,10 @@ class Screen(arcade.Window):
         #Lifes marker
         lifetext = f"Lifes: {self.lifes}"
         arcade.draw_text(lifetext, 45, 470, arcade.color.WHITE, 15, anchor_x='center')
+
+        #Rewards marker
+        rewardstext = f"Gears got: {self.points}/{K.NUMBER_OF_REWARDS}"
+        arcade.draw_text(rewardstext, 300, 470, arcade.color.WHITE, 15, anchor_x='center')
 
 
     def on_key_press(self, key, modifiers):
@@ -148,25 +155,30 @@ class Screen(arcade.Window):
         
         #self.time is constant... time is changing constantly
         time = datetime.now()
-        changetime = self.time + timedelta(seconds= 1)
-        
+        changetime = self.time + timedelta(seconds= K.SECONDS_TO_SPAWN)
         #print(f"{changetime}  {time}")
         if time >= changetime:
-            self.time = time 
+            self.time = time
+            self.place_enemy()
+
             #Time counter finished   
-                 
+        
         #Enemy moving
         for a in self.enemies_list:
-            #print(K.UP)
-            if a.top < K.SCREEN_HEIGHT and K.UP == True:
+            a.center_x -= 1
+            #print(a.UP)
+            #UP AND DOWN MOVEMENT
+            if a.top < K.SCREEN_HEIGHT and a.UP == True:
                 a.center_y += 5
             if a.top > K.SCREEN_HEIGHT:
-                K.UP = False
-            if K.UP == False:
+                a.UP = False
+            if a.UP == False:
                 a.center_y -= 5
             if a.bottom < 20:
-                K.UP = True
-
+                a.UP = True
+            if a.center_x < 0:
+                self.enemies_list.remove(a)
+                #print("removed")
 
 
         #COLLITIONS-----
@@ -179,12 +191,14 @@ class Screen(arcade.Window):
             self.sounds.play_collision_sound()
             self.lifes -=1
             if self.lifes == 0:
-                exit()
+                "Losing screen"
+                pass
             # exit() 
         
         #Rewards
         for b in self.rewards_list:
             get_reward = arcade.check_for_collision(self.player, b)
             if get_reward:
+                self.points += 1
                 self.sounds.play_reward_sound()
                 self.rewards_list.remove(b)

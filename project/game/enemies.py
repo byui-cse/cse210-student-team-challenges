@@ -2,6 +2,7 @@ import arcade
 from game import K
 
 class Enemies(arcade.Sprite):
+    UP = True      
     def update(self):
         super().update()
         
