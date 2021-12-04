@@ -53,7 +53,7 @@ class Screen(arcade.Window):
         # Platforms are still not "solid"
         # self.scene.add_sprite("Walls", self.platforms)   
         for z in range(0,3):
-            self.enemy = Enemies("project/game/images/podooboo.png", K.ENEMY_SCALING)
+            self.enemy = Enemies("project/game/images/spikeball.png", K.ENEMY_SCALING)
             self.enemy.center_x = random.randint(90, 990)
             self.enemy.center_y = random.randint(60, 70)
             self.enemies_list.append(self.enemy)
