@@ -97,9 +97,9 @@ class Screen(arcade.Window):
 
         # Adds physics engine to the player
         self.physics_engine = arcade.PhysicsEnginePlatformer(
-            self.player, gravity_constant=K.GRAVITY, walls=self.scene["Walls"]
-        )
+            self.player, gravity_constant=K.GRAVITY, walls=self.scene["Walls"],)
 
+        
     def draw_background(self):
         #Setting Background color, only needed if the background is not callable
         arcade.set_background_color(arcade.color.BLACK)
