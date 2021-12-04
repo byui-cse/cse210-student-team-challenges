@@ -50,7 +50,7 @@ class Screen(arcade.Window):
 
         # Make the floor
         for x in range(0, 1250, 37):
-            wall1 = arcade.Sprite("project\game\images\metalblock.png", K.BLOCK_SIZE) # Last parameter is for resizing (optional)
+            wall1 = arcade.Sprite("project/game/images/metalblock.png", K.BLOCK_SIZE) # Last parameter is for resizing (optional)
             wall1.center_x = x
             wall1.center_y = 15
 
