@@ -31,8 +31,8 @@ class Screen(arcade.Window):
 
         self.sounds.play_music()
 
-        self.lifes = 2
-        self.points = 0
+        self.lifes = 4
+        self.level = 1
         self.time = datetime.now()
     def setup(self):
         # Initialize Scene
@@ -53,23 +53,28 @@ class Screen(arcade.Window):
             self.scene.add_sprite("Walls", block)
 
         #Rewards
-        for y in range(0,K.NUMBER_OF_REWARDS):
-            gear = arcade.Sprite("project/game/images/gear.png",K.REWARD_SIZE)
-            gear.center_x = random.randint(50, 990)
-            gear.center_y = random.randint(15, 490)
-            self.rewards_list.append(gear)
+
             
         # Create the platforms
         self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
         # self.scene.add_sprite("Walls", self.platforms)   
         self.place_enemy()
+        self.place_rewards()
 
     def place_enemy(self):
         self.enemy = Enemies("project/game/images/spikeball.png", K.ENEMY_SCALING)
         self.enemy.center_x = K.SCREEN_WIDTH-1
         self.enemy.center_y = random.randint(60, 70)
         self.enemies_list.append(self.enemy)
+    
+    def place_rewards(self):
+        self.points = 0
+        for y in range(0,K.NUMBER_OF_REWARDS):
+            gear = arcade.Sprite("project/game/images/gear.png",K.REWARD_SIZE)
+            gear.center_x = random.randint(50, 990)
+            gear.center_y = random.randint(15, 490)
+            self.rewards_list.append(gear)
 
     def create_player(self):
         """Create the player sprite, specify his position and append it to the list of all sprites"""
@@ -114,6 +119,9 @@ class Screen(arcade.Window):
         #Rewards marker
         rewardstext = f"Gears got: {self.points}/{K.NUMBER_OF_REWARDS}"
         arcade.draw_text(rewardstext, 300, 470, arcade.color.WHITE, 15, anchor_x='center')
+
+        rewardstext = f"Level: {self.level}"
+        arcade.draw_text(rewardstext, 500, 470, arcade.color.WHITE, 15, anchor_x='center')
 
 
     def on_key_press(self, key, modifiers):
@@ -202,3 +210,9 @@ class Screen(arcade.Window):
                 self.points += 1
                 self.sounds.play_reward_sound()
                 self.rewards_list.remove(b)
+        if len(self.rewards_list) == 0:
+            self.sounds.play_newlevel_sound()
+            K.NUMBER_OF_REWARDS += 1
+            self.level += 1
+            self.place_rewards()  
+            
