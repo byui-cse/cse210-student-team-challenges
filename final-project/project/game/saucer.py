@@ -11,7 +11,7 @@ class Saucer(arcade.Sprite):
         Args:
             self (Saucer): an instance of saucer.
         """
-        #Set sprite and scale
+        #Set sprites and scaling
         self.sprite = arcade.Sprite(":resources:images/tiles/switchGreen.png", constants.SAUCER_SCALING)
 
         #Set sound effect

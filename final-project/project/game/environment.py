@@ -2,14 +2,14 @@ import arcade
 from game import constants
 
 class Environment(arcade.Sprite):
-    """A code template for the surface sprite. The responsibility of 
-    this class of objects is to set up the surface sprite.
+    """A code template for the surface and star sprites. The responsibility of 
+    this class of objects is to set up the surface and star sprites.
     """
     def __init__(self, x_value, y_value):
         """The class constructor.
         
         Args:
-            self (Surface): an instance of Surface.
+            self (Environment): an instance of Environment.
         """
         #Set background color
         self.background = arcade.set_background_color(arcade.csscolor.BLACK)

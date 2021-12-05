@@ -27,21 +27,24 @@ class KablamGame(arcade.Window):
         self.bomb_list = None
         self.surface_list = None
         self.star_list = None
-        self.start_game = False
-        self.game_over = False
-        self.new_highscore = False
-        self.saucer_struck = False
-
-        #Background music and some sound effects
-        self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
-        self.begin_game_sound = arcade.Sound(":resources:sounds/upgrade4.wav")
-        self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
-        self.new_highscore_sound = arcade.Sound(":resources:sounds/upgrade5.wav")
 
         #Initialize sprites
         self.score = None
         self.highscore = None
         self.bomb_amount = None
+
+        #Initialize variables
+        self.saucer_struck = False
+        self.start_game = False
+        self.game_over = False
+        self.new_highscore = False
+
+        #Background music and some sound effects
+        self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
+        
+        self.begin_game_sound = arcade.Sound(":resources:sounds/upgrade4.wav")
+        self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
+        self.new_highscore_sound = arcade.Sound(":resources:sounds/upgrade5.wav")
 
 
     def setup(self):
@@ -57,9 +60,9 @@ class KablamGame(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
 
-        #Prepare storage variables
+        #Prepare variables
         self.score = 0
-        self.highscore = 80
+        self.highscore = 40
         self.restart_timer = 0
         self.struck_timer = 0
         self.music_replay_timer = 0
@@ -82,7 +85,7 @@ class KablamGame(arcade.Window):
         self.saucer_list.append(self.saucer.sprite)
 
         #Place surface
-        for x in range(0, 820):
+        for x in range(-20, 820):
             self.surface = Environment(x, 20)
             self.surface_list.append(self.surface.surface)
 
@@ -103,6 +106,9 @@ class KablamGame(arcade.Window):
             if key == arcade.key.RETURN:
                 self.start_game = True
                 self.begin_game_sound.play()
+            if key == arcade.key.ESCAPE:
+                arcade.exit()
+                
 
         #While gameplay is active
         if self.start_game == True:
@@ -116,6 +122,8 @@ class KablamGame(arcade.Window):
                         self.ship.drop_bomb()
                         self.bomb_list.append(self.ship.bomb)
                         self.bomb_amount -= 1
+                elif key == arcade.key.ESCAPE:
+                    arcade.exit()
 
 
     def on_key_release(self, key, modifiers):
@@ -128,7 +136,7 @@ class KablamGame(arcade.Window):
                     self.ship.move_left()
 
 
-    def on_update(self, delta_time: float = 1 / 60):
+    def on_update(self, delta_time):
         #Check and update changes to sprite lists every frame
         self.ship_list.update()
         self.meteor_list.update()
@@ -171,14 +179,18 @@ class KablamGame(arcade.Window):
                 self.saucer_struck = True
                 self.saucer.play_sound()
                 self.score += 10
-                self.new_speed = (self.saucer.sprite.change_x + 1)
+                self.new_speed = (self.saucer.sprite.change_x)
                 self.bomb_amount += 2
+                if self.new_speed > 0:
+                    self.new_speed = (self.new_speed + 1) * -1
+                elif self.new_speed < 0:
+                    self.new_speed = (self.new_speed - 1) * -1
 
             #When bomb hits the planet surface
             self.surface_collision_list = arcade.check_for_collision_with_list(bomb, self.surface_list)
             if len(self.surface_collision_list) > 0:
                 bomb.remove_from_sprite_lists()
-                self.surface.sound.play()
+                self.surface.play_sound()
                 if self.bomb_amount == 0:
                     self.game_over = True
                     if self.score > self.highscore:
@@ -217,11 +229,12 @@ class KablamGame(arcade.Window):
 
         #Draw saucer struck animation
         if self.saucer_struck == True:
-            if self.struck_timer < 10:
+
+            if self.struck_timer < 5:
                 self.saucer.sprite.angle = -10
-            elif self.struck_timer >= 10 and self.struck_timer < 20:
+            elif self.struck_timer >= 5 and self.struck_timer < 10:
                 self.saucer.sprite.angle = 10
-            elif self.struck_timer >= 20:
+            elif self.struck_timer >= 10:
                 self.saucer.sprite.change_x = self.new_speed
                 self.saucer.sprite.angle = 0
                 self.struck_timer = 0
