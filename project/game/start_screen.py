@@ -17,14 +17,14 @@ class StartScreen(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
-        # Set the working directory (where we expect to find files) to the same
-        # directory this .py file is in
-        file_path = os.path.dirname(os.path.abspath(__file__))
-        os.chdir(file_path)
+        # # Set the working directory (where we expect to find files) to the same
+        # # directory this .py file is in
+
 
         # Background image will be stored in this variable
         self.background = None
 
+        self.start = False
         # Set background color
         arcade.set_background_color(arcade.color.BLACK)
 
@@ -46,6 +46,7 @@ class StartScreen(arcade.Window):
         # --- Method 2 for handling click events,
         # assign self.on_click_start as callback
         start_button.on_click = self.on_click_start
+
         
         # Create a widget to hold the v_box widget, that will center the buttons
         self.manager.add(
@@ -57,11 +58,12 @@ class StartScreen(arcade.Window):
 
     def set_background(self):
         # Load the background image. Do this in the setup so we don't keep reloading it all the time.
-        self.background = arcade.load_texture("images/lab_background.png")
+        self.background = arcade.load_texture("project\game\images\lab_background.png")
 
     def on_click_start(self, event):
-        print("Start:", event)
-
+        self.start = True
+        arcade.exit()
+        
     def on_draw(self):
         # This command has to happen before we start drawing
         arcade.start_render()
@@ -72,6 +74,6 @@ class StartScreen(arcade.Window):
         self.manager.draw()
 
 
-window = StartScreen(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
-window.set_background()
-arcade.run()
+# window = StartScreen(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
+# window.set_background()
+# arcade.run()
