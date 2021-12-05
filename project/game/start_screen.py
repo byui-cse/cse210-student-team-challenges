@@ -2,7 +2,7 @@ import arcade
 from arcade.color import BLACK
 import arcade.gui
 import os
-
+import time
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 500
 SCREEN_TITLE = "Welcome to Crazy Lab Game"
@@ -58,12 +58,17 @@ class StartScreen(arcade.Window):
 
     def set_background(self):
         # Load the background image. Do this in the setup so we don't keep reloading it all the time.
-        self.background = arcade.load_texture("project\game\images\lab_background.png")
+        self.background = arcade.load_texture("project/game/images/lab_background.png")
 
     def on_click_start(self, event):
         self.start = True
         arcade.exit()
-        
+
+    # def close(self):
+    #     """ Close the Window. """
+    #     super().close()
+    #     pyglet.clock.unschedule(self._dispatch_updates)
+
     def on_draw(self):
         # This command has to happen before we start drawing
         arcade.start_render()

@@ -6,17 +6,17 @@ import arcade
 import os
 
 
-
 def main():
     # file_path = os.path.dirname(os.path.abspath(__file__))
     # os.chdir(file_path)
-
+    start = False
     start = starting_screen()
     if start == True:
         start_game()
 
 def start_game():
-    screen = Screen(K.SCREEN_WIDTH, K.SCREEN_HEIGHT, K.SCREEN_TITLE)
+    screen =Screen(K.SCREEN_WIDTH, K.SCREEN_HEIGHT, K.SCREEN_TITLE)
+    #arcade.set_window(screen)
     screen.draw_background() # Must be called first
     screen.setup()
     screen.create_player()
@@ -25,6 +25,7 @@ def start_game():
 def starting_screen():
     START_SCREEN_TITLE = "Welcome to Crazy Lab Game"
     window = StartScreen(K.SCREEN_WIDTH, K.SCREEN_HEIGHT, START_SCREEN_TITLE)
+    #arcade.set_window(window)
     window.set_background()
 
     arcade.run()

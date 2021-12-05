@@ -16,7 +16,7 @@ class Screen(arcade.Window):
     #The inheritance of the window class automatically starts the screen
     #Is important to notice that the method arcade.open_window is in the arcade.Window class
     #Also is important to notice that the Window class creates the window in the __init__
-    def __init__(self, width, height, title):
+    def __init__(self, width, height, title):      
         super().__init__(width, height, title)
         
         # Creating an instance that manages the sprites
