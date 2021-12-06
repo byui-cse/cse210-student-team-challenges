@@ -60,11 +60,11 @@ class KablamGame(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
 
-        #Prepare variables and timers
-        self.score = 0
-        self.highscore = 60
+        #Prepare variables
+        self.highscore = 50
         self.bomb_amount = 10
-        
+
+        #Prepare timers
         self.restart_timer = 0
         self.struck_timer = 0
         self.music_replay_timer = 0
@@ -203,7 +203,6 @@ class KablamGame(arcade.Window):
                         self.new_highscore = False
                         self.game_over_sound.play()
 
-
         #Enumerate timers
         if self.start_game == False:
             self.start_timer += 1
@@ -248,7 +247,7 @@ class KablamGame(arcade.Window):
 
         #Draw information sprites near the top of the screen
         output = "Arrow Keys to Switch Direction -- Spacebar to Drop Bombs"
-        arcade.draw_text(output, 160, 577, arcade.color.WHITE, 14)
+        arcade.draw_text(output, 210, 575, arcade.color.WHITE, 11)
 
         output = f"Score: {self.score}"
         arcade.draw_text(output, 25, 545, arcade.color.WHITE, 14)
@@ -260,7 +259,7 @@ class KablamGame(arcade.Window):
         if self.start_game == False:
             output = "KABLAM!"
             arcade.draw_text(output, 110, 400, arcade.color.BLUE, 100)
-            #Flash text
+            #Flash 'Press RETURN to Start' text
             if self.start_timer < 50:
                 output = ""
                 arcade.draw_text(output, 125, 240, arcade.color.BLACK, 40)
@@ -279,7 +278,7 @@ class KablamGame(arcade.Window):
                 output = "GAME OVER"
                 arcade.draw_text(output, 200, 350, arcade.color.RED, 50)
                 if self.new_highscore == True:
-                    #Flash text
+                    #Flash 'NEW HIGHSCORE' text
                     if self.score_timer < 20:
                         output = f"NEW HIGHSCORE: {self.score}"
                         arcade.draw_text(output, 280, 150, arcade.color.GREEN, 22)
