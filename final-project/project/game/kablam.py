@@ -8,7 +8,8 @@ from game.environment import Environment
 
 class KablamGame(arcade.Window):
     """A code template for the game. The responsibility of 
-    this class of objects is to control the sequence of play.
+    this class of objects is to set up the window and control
+    the sequence of play.
     """
 
     def __init__(self):
@@ -41,7 +42,6 @@ class KablamGame(arcade.Window):
 
         #Background music and some sound effects
         self.background_music = arcade.Sound(":resources:music/funkyrobot.mp3")
-        
         self.begin_game_sound = arcade.Sound(":resources:sounds/upgrade4.wav")
         self.game_over_sound = arcade.Sound(":resources:sounds/gameover3.wav")
         self.new_highscore_sound = arcade.Sound(":resources:sounds/upgrade5.wav")
@@ -60,13 +60,16 @@ class KablamGame(arcade.Window):
         self.surface_list = arcade.SpriteList()
         self.star_list = arcade.SpriteList()
 
-        #Prepare variables
+        #Prepare variables and timers
         self.score = 0
-        self.highscore = 40
+        self.highscore = 60
+        self.bomb_amount = 10
+        
         self.restart_timer = 0
         self.struck_timer = 0
         self.music_replay_timer = 0
-        self.bomb_amount = 10
+        self.start_timer = 0
+        self.score_timer = 0
 
         #Place ship
         self.ship = Ship(64, 490, 270, constants.SHIP_SPEED)
@@ -109,7 +112,6 @@ class KablamGame(arcade.Window):
             if key == arcade.key.ESCAPE:
                 arcade.exit()
                 
-
         #While gameplay is active
         if self.start_game == True:
             if self.game_over == False:
@@ -155,7 +157,7 @@ class KablamGame(arcade.Window):
         #Saucer wraps screen
         self.saucer.wraps_screen()
 
-        #When bomb hits the meteor
+        #When bomb hits the meteors
         for bomb in self.bomb_list:
             self.meteor_collision_list = arcade.check_for_collision_with_list(bomb, self.meteor_list)
             if len(self.meteor_collision_list) > 0:
@@ -182,9 +184,9 @@ class KablamGame(arcade.Window):
                 self.new_speed = (self.saucer.sprite.change_x)
                 self.bomb_amount += 2
                 if self.new_speed > 0:
-                    self.new_speed = (self.new_speed + 1) * -1
+                    self.new_speed = (self.new_speed + .75) * -1
                 elif self.new_speed < 0:
-                    self.new_speed = (self.new_speed - 1) * -1
+                    self.new_speed = (self.new_speed - .75) * -1
 
             #When bomb hits the planet surface
             self.surface_collision_list = arcade.check_for_collision_with_list(bomb, self.surface_list)
@@ -202,12 +204,18 @@ class KablamGame(arcade.Window):
                         self.game_over_sound.play()
 
 
-        if self.game_over == True:
-            self.restart_timer +=1
-
+        #Enumerate timers
+        if self.start_game == False:
+            self.start_timer += 1
 
         if self.saucer_struck == True:
             self.struck_timer += 1
+
+        if self.game_over == True:
+            self.restart_timer +=1
+
+        if self.new_highscore == True:
+            self.score_timer += 1
 
         #Loop background music
         self.music_replay_timer += 1
@@ -219,7 +227,6 @@ class KablamGame(arcade.Window):
     def on_draw(self):
         #Draw sprite list changes every frame
         arcade.start_render()
-
         self.star_list.draw()
         self.surface_list.draw()
         self.bomb_list.draw()
@@ -229,7 +236,6 @@ class KablamGame(arcade.Window):
 
         #Draw saucer struck animation
         if self.saucer_struck == True:
-
             if self.struck_timer < 5:
                 self.saucer.sprite.angle = -10
             elif self.struck_timer >= 5 and self.struck_timer < 10:
@@ -254,9 +260,15 @@ class KablamGame(arcade.Window):
         if self.start_game == False:
             output = "KABLAM!"
             arcade.draw_text(output, 110, 400, arcade.color.BLUE, 100)
-
-            output = "Pess RETURN to Play"
-            arcade.draw_text(output, 125, 240, arcade.color.YELLOW, 40)
+            #Flash text
+            if self.start_timer < 50:
+                output = ""
+                arcade.draw_text(output, 125, 240, arcade.color.BLACK, 40)
+            elif self.start_timer >= 50 and self.start_timer < 140:
+                output = "Pess RETURN to Start"
+                arcade.draw_text(output, 125, 240, arcade.color.YELLOW, 40)
+            elif self.start_timer > 140:
+                self.start_timer = 0
 
             output = f"HIGHSCORE: {self.highscore}"
             arcade.draw_text(output, 290, 75, arcade.color.WHITE, 22)
@@ -267,8 +279,15 @@ class KablamGame(arcade.Window):
                 output = "GAME OVER"
                 arcade.draw_text(output, 200, 350, arcade.color.RED, 50)
                 if self.new_highscore == True:
-                    output = f"NEW HIGHSCORE: {self.score}"
-                    arcade.draw_text(output, 280, 150, arcade.color.GREEN, 22)
+                    #Flash text
+                    if self.score_timer < 20:
+                        output = f"NEW HIGHSCORE: {self.score}"
+                        arcade.draw_text(output, 280, 150, arcade.color.GREEN, 22)
+                    elif self.score_timer >= 20 and self.score_timer < 40:
+                        output = ""
+                        arcade.draw_text(output, 280, 150, arcade.color.BLACK, 22)
+                    elif self.score_timer > 40:
+                        self.score_timer = 0
                 elif self.new_highscore == False:
                     output = f"SCORE: {self.score}"
                     arcade.draw_text(output, 340, 150, arcade.color.WHITE, 22)
