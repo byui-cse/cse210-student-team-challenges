@@ -60,10 +60,11 @@ class Screen(arcade.Window):
         #Rewards
 
             
-        # Create the platforms
-        self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
+        # Create the platforms... This does not make much sense anymore. Ruled out for now.
+        # self.platforms = Platforms.make_platforms(K.SCREEN_WIDTH * 5, 0, arcade.color.ARSENIC, 0.7, 0.5)
         # Platforms are still not "solid"
-        # self.scene.add_sprite("Walls", self.platforms) 
+        # self.scene.add_sprite("Walls", self.platforms)
+
         self.place_blocks()  
         self.place_enemy()
         self.place_rewards()
@@ -121,12 +122,14 @@ class Screen(arcade.Window):
         
         # Draw all the sprites.
         self.background_list.draw()
-        self.platforms.draw()
         self.sprite_list.draw()
         self.scene.draw()
         self.rewards_list.draw()
         self.enemies_list.draw()
         self.boss_list.draw()
+
+        # self.platforms.draw()
+        # Ruled out for now, see comment about platforms above
 
         #Lifes marker
         lifetext = f"Lifes: {self.lifes}"
@@ -178,7 +181,8 @@ class Screen(arcade.Window):
         self.sprite_list.update()
 
         # Allow the platforms to keeep moving      
-        self.platforms.center_x -= K.PLATFORM_SPEED
+        # Ruled out for now, see comment about platforms above
+        # self.platforms.center_x -= K.PLATFORM_SPEED
 
         time2 = datetime.now()
         changetime2 = self.time2 + timedelta(seconds= K.SECONDS_TO_CHANGE)
